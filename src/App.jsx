@@ -6,7 +6,7 @@ function getTitle(title) {
 
 const welcome = {
   title: "react",
-  greeting: "ahoy there",
+  greeting: "ahoy there, what ye lookin for?",
 };
 
 function getNull() {
@@ -20,6 +20,17 @@ const exponentialNumber = number
     return number * number;
   })
   .join(", ");
+
+const filteredNumber = number
+  .filter(function (number) {
+    return number > 2;
+  })
+  .join(", ");
+
+const initialValue = 0;
+// const cobaReduce = number.reduce(
+//   (prevVal, curVal, curIndex) => prevVal + ", " + curVal + ", " + curIndex,
+// );
 
 const books = [
   {
@@ -40,15 +51,27 @@ const books = [
   },
 ];
 
-function App() {
+function Item({ item }) {
+  return (
+    <div key={item.objectID}>
+      <a href={item.url}>
+        <h3>{item.title}</h3>
+      </a>
+      <p>{item.author}</p>
+      <p>Comment: {item.num_comment}</p>
+      <p>{item.point} Point</p>
+    </div>
+  );
+}
+
+function List() {
   return (
     <div>
       <div>
-        <h1>Hellooo {getTitle("react")}</h1>
-        <label htmlFor="input">
-          <p className="">{welcome.greeting}</p>
-          <input id="input" type="text" />
-        </label>
+        <h2>Books</h2>
+        {books.map(function (item) {
+          return <Item item={item} />;
+        })}
       </div>
       <div>
         <h2>my things</h2>
@@ -58,22 +81,43 @@ function App() {
         <h2>numbers</h2>
         <p>{exponentialNumber}</p>
       </div>
+      {/* {commmennntt} */}
+      <h4>coba filteredNumber()</h4>
+      <p>{filteredNumber}</p>
+      <h4>coba reduce()</h4>
       <div>
-        <h2>Books</h2>
-        {books.map(function (item) {
+        {number.reduce(function (prevVal, curVal, curIndex, array) {
           return (
-            <div key={item.objectID}>
-              <a href={item.url}>
-                <h3>{item.title}</h3>
-              </a>
-              <p>{item.author}</p>
-              <p>Comment: {item.num_comment}</p>
-              <p>{item.point} Point</p>
+            <div>
+              <p>PrevVal [{prevVal}]</p>
+              <p>CurVal [{curVal}]</p>
+              <p>CurIndex [{curIndex}]</p>
+              <p>Array [{array}]</p>
             </div>
           );
         })}
       </div>
-      {/* {commmennntt} */}
+    </div>
+  );
+}
+
+function Search() {
+  return (
+    <div>
+      <label htmlFor="input">
+        <p className="">{welcome.greeting}</p>
+        <input id="input" type="text" />
+      </label>
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <div>
+      <h1>Hellooo {getTitle("react")}</h1>
+      <Search />
+      <List />
     </div>
   );
 }
