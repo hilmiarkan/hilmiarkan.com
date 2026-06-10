@@ -20,42 +20,23 @@ const initialValue = 0;
 //   (prevVal, curVal, curIndex) => prevVal + ", " + curVal + ", " + curIndex,
 // );
 
-const books = [
-  {
-    title: "book of numbers",
-    author: "jesus",
-    num_comment: 5,
-    url: "https://bookofnumbers.com",
-    point: 7,
-    objectID: 0,
-  },
-  {
-    title: "quran",
-    author: "allah",
-    num_comment: 999999,
-    url: "https://quran.com",
-    point: 9999999,
-    objectID: 1,
-  },
-];
-
-const Item = ({ item }) => (
-  <div key={item.objectID}>
-    <a href={item.url}>
-      <h3>{item.title}</h3>
+const Item = (props) => (
+  <div key={props.wkwk.objectID}>
+    <a href={props.wkwk.url}>
+      <h3>{props.wkwk.title}</h3>
     </a>
-    <p>{item.author}</p>
-    <p>Comment: {item.num_comment}</p>
-    <p>{item.point} Point</p>
+    <p>{props.wkwk.author}</p>
+    <p>Comment: {props.wkwk.num_comment}</p>
+    <p>{props.wkwk.point} Point</p>
   </div>
 );
 
-const List = () => (
+const List = (props) => (
   <div>
     <div>
       <h2>Books</h2>
-      {books.map((item) => (
-        <Item item={item} />
+      {props.ooyi.map((item) => (
+        <Item key={item.objectID} wkwk={item} />
       ))}
     </div>
     <div>
@@ -104,13 +85,32 @@ const Search = () => {
   );
 };
 
-const App = () => (
-  <div>
-    <h1>Hellooo {getTitle("internet surfer")}</h1>
-    <Search />
-    <Search />
-    <List />
-  </div>
-);
-
+const App = () => {
+  const books = [
+    {
+      title: "book of numbers",
+      author: "jesus",
+      num_comment: 5,
+      url: "https://bookofnumbers.com",
+      point: 7,
+      objectID: 0,
+    },
+    {
+      title: "quran",
+      author: "allah",
+      num_comment: 999999,
+      url: "https://quran.com",
+      point: 9999999,
+      objectID: 1,
+    },
+  ];
+  return (
+    <div>
+      <h1>Hellooo {getTitle("internet surfer")}</h1>
+      <Search />
+      <Search />
+      <List ooyi={books} />
+    </div>
+  );
+};
 export default App;

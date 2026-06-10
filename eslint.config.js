@@ -18,5 +18,8 @@ export default defineConfig([
 
       parserOptions: { ecmaFeatures: { jsx: true } },
     },
+    rules: {
+      "react/prop-types": "off",
+    },
   },
 ]);
