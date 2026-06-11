@@ -1,4 +1,5 @@
 import "./App.css";
+import * as React from "react";
 
 const getTitle = (title) => title;
 
@@ -31,45 +32,51 @@ const Item = (props) => (
   </div>
 );
 
-const List = (props) => (
-  <div>
+const List = (props) => {
+  console.log("List renders");
+  return (
     <div>
-      <h2>Books</h2>
-      {props.ooyi.map((item) => (
-        <Item key={item.objectID} wkwk={item} />
-      ))}
+      <div>
+        <h2>Books</h2>
+        {props.ooyi.map((item) => (
+          <Item key={item.objectID} wkwk={item} />
+        ))}
+      </div>
+      <div>
+        <h2>my things</h2>
+        <div>{list.map((x) => x).join(", ")}</div>
+      </div>
+      <div>
+        <h2>numbers</h2>
+        <div>{exponentialNumber}</div>
+      </div>
+      {/* {commmennntt} */}
+      <h4>coba filteredNumber()</h4>
+      <div>{filteredNumber}</div>
+      <h4>coba reduce()</h4>
+      <div>
+        {number.reduce((prevVal, curVal, curIndex, array) => (
+          <div>
+            <div>PrevVal [{prevVal}]</div>
+            <div>CurVal [{curVal}]</div>
+            <div>CurIndex [{curIndex}]</div>
+            <div>Array [{array}]</div>
+          </div>
+        ))}
+      </div>
     </div>
-    <div>
-      <h2>my things</h2>
-      <p>{list.map((x) => x).join(", ")}</p>
-    </div>
-    <div>
-      <h2>numbers</h2>
-      <p>{exponentialNumber}</p>
-    </div>
-    {/* {commmennntt} */}
-    <h4>coba filteredNumber()</h4>
-    <p>{filteredNumber}</p>
-    <h4>coba reduce()</h4>
-    <div>
-      {number.reduce((prevVal, curVal, curIndex, array) => (
-        <div>
-          <p>PrevVal [{prevVal}]</p>
-          <p>CurVal [{curVal}]</p>
-          <p>CurIndex [{curIndex}]</p>
-          <p>Array [{array}]</p>
-        </div>
-      ))}
-    </div>
-  </div>
-);
+  );
+};
 
 const Search = () => {
+  const [searchTerm, setSearchTerm] = React.useState("");
+
   const handleChange = (event) => {
     console.log(event);
-
     console.log(event.target.value);
+    setSearchTerm(event.target.value);
   };
+
   return (
     <div>
       <label htmlFor="input">
@@ -80,12 +87,14 @@ const Search = () => {
           onChange={handleChange}
           onBlur={handleChange}
         />
+        <p>searching for {searchTerm}</p>
       </label>
     </div>
   );
 };
 
 const App = () => {
+  console.log("App renders");
   const books = [
     {
       title: "book of numbers",
@@ -109,6 +118,7 @@ const App = () => {
       <h1>Hellooo {getTitle("internet surfer")}</h1>
       <Search />
       <Search />
+
       <List ooyi={books} />
     </div>
   );
