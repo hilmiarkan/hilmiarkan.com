@@ -4,7 +4,6 @@ import "./index.css";
 import App from "./App.jsx";
 
 createRoot(document.getElementById("root")).render(
-  // <h1>THIS SITE HAS BEEN SEIZED</h1>
   <StrictMode>
     <App />
   </StrictMode>,
