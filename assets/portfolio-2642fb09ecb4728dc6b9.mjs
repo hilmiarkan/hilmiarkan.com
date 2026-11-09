@@ -1,0 +1,1 @@
+import{t as e}from"/assets/portfolio-0296e5abe1f0c9c79d3f.mjs";import{l as t,s as n}from"/assets/portfolio-ae6466c3f757a4b6d4c6.mjs";var r,i=e((()=>{n(),r=e=>n=>t(e,{...n,style:{height:`100svh`,width:`100%`,maxWidth:`100vw`,boxSizing:`border-box`,overflowX:`hidden`}})}));export{i as n,r as t};

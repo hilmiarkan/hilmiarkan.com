@@ -1,0 +1,6 @@
+/* The project picker stays fully visible on the index and every work detail. */
+#main .portfolio-EqMmV,
+#main div:has(> .portfolio-EqMmV),
+.portfolio-Pn9dC .portfolio-yx3m6p-container {
+  opacity: 1 !important;
+}
