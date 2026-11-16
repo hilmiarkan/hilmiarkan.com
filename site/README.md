@@ -11,6 +11,21 @@ npm run dev      # http://localhost:4321, reloads on save
 npm run build    # static output in dist/
 ```
 
+## Deploy (Cloudflare Pages)
+
+Project settings in the Cloudflare dashboard:
+
+| Setting | Value |
+| --- | --- |
+| Framework preset | Astro |
+| Root directory | `site` |
+| Build command | `npm run build` |
+| Build output directory | `dist` |
+
+Every push builds and publishes automatically. `public/_headers` sets caching,
+`public/_redirects` holds redirects, `src/pages/404.astro` is the not-found
+page, and `.node-version` pins the Node version Cloudflare builds with.
+
 ## Add or edit content
 
 **A note.** Create `src/content/notes/<name>.md`. The file name becomes the

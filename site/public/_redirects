@@ -1,0 +1,4 @@
+# Cloudflare Pages redirects: <from> <to> <status>
+
+# Page from the old site that was not carried over.
+/contact-2 / 302
