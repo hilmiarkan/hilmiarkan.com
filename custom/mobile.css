@@ -1,0 +1,125 @@
+/*
+ * Small-screen fixes for the published output. Desktop (>= 1200px) is untouched.
+ * Sections: viewport · navigation · pickers · home · work detail · notes ·
+ * side projects · resume.
+ */
+@media (max-width: 1199.98px) {
+
+  /* ---------- Viewport ---------- */
+  /* Follow the visible viewport so the bottom navigation is never hidden
+     behind the browser toolbar. */
+  #main [data-portfolio-root] {
+    height: 100vh !important;
+    height: 100dvh !important;
+  }
+
+  /* ---------- Navigation ---------- */
+  html[data-theme="light"] #main nav {
+    box-shadow: 0 -1px 0 var(--portfolio-divider) !important;
+    --border-color: var(--portfolio-divider) !important;
+  }
+  /* The original bottom bar has no theme slot: shift the icons and dock one. */
+  #main nav .portfolio-h6um5h { transform: translateX(-26px) !important; }
+  #main [data-portfolio-name="Theme"] { display: none !important; }
+  #portfolio-mobile-theme {
+    display: block;
+    position: fixed;
+    right: max(12px, calc((100vw - 336px) / 2));
+    bottom: 52px;
+    width: var(--nav-icon-size);
+    height: var(--nav-icon-size);
+    z-index: 20;
+    padding: 0;
+    border: 0;
+    background: transparent;
+  }
+  #portfolio-mobile-theme[hidden] { display: none; }
+  /* Icons stay 24px; the touch area grows to a comfortable size. */
+  #main nav a::after,
+  #portfolio-mobile-theme::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 52px;
+    height: var(--tap-target);
+    transform: translate(-50%, -50%);
+  }
+
+  /* ---------- Pickers (projects, notes) ---------- */
+  #main .portfolio-EqMmV,
+  #main .portfolio-4Dcx6 {
+    box-shadow: var(--shadow-bar) !important;
+  }
+  html[data-theme="light"] #main .portfolio-EqMmV,
+  html[data-theme="light"] #main .portfolio-4Dcx6 {
+    --border-color: var(--portfolio-divider) !important;
+  }
+
+  /* ---------- Home ---------- */
+  /* Stack the avatar above the name card and keep both centered. --u is one
+     design pixel, scaled down only when the card would not fit the screen. */
+  #main .portfolio-nSOpu .portfolio-8ugk4u {
+    --u: min(1px, (100vw - 48px) / 426);
+    height: 100% !important;
+  }
+  #main .portfolio-nSOpu .portfolio-1cflvpf-container {
+    left: calc(50% - 54px) !important;
+    top: calc(50% - 62px - 56.5 * var(--u)) !important;
+  }
+  #main .portfolio-nSOpu .portfolio-27yr8j-container {
+    left: 50% !important;
+    top: calc(50% + 62px - 56.5 * var(--u)) !important;
+    transform: translateX(-50%) !important;
+  }
+  #main .portfolio-SXWNI.portfolio-174yzkf {
+    gap: calc(10 * var(--u));
+    padding: calc(15 * var(--u)) calc(26 * var(--u)) calc(22 * var(--u)) calc(21 * var(--u));
+    border-radius: calc(19 * var(--u)) !important;
+  }
+  #main .portfolio-SXWNI h2 { --portfolio-font-size: calc(46 * var(--u)) !important; }
+  #main .portfolio-SXWNI p { --portfolio-font-size: calc(20 * var(--u)) !important; }
+  #main .portfolio-buYn3,
+  #main .portfolio-SXWNI {
+    box-shadow: var(--shadow-card-compact) !important;
+  }
+
+  /* ---------- Work detail ---------- */
+  /* The article scrolls between the top of the screen and the picker, so the
+     picker and navigation stay docked like on every other page. */
+  #main [data-portfolio-root] > [data-portfolio-name="Frame 13"] {
+    flex: 1 0 0 !important;
+    height: 1px !important;
+    min-height: 0;
+  }
+
+  /* ---------- Notes ---------- */
+  #main .portfolio-4Dcx6 h2 { font-size: 12px !important; }
+
+  /* ---------- Side projects ---------- */
+  /* Captions sit below the media, so they follow the page palette. */
+  html[data-theme="light"] #main .portfolio-KpIXY [style*="--portfolio-text-color:rgb(237, 237, 237)"],
+  html[data-theme="light"] #main .portfolio-KpIXY [style*="--portfolio-text-color: rgb(237, 237, 237)"] {
+    --portfolio-text-color: var(--portfolio-text) !important;
+  }
+  html[data-theme="light"] #main .portfolio-KpIXY [style*="--portfolio-text-color:rgba(255, 255, 255, 0.6)"],
+  html[data-theme="light"] #main .portfolio-KpIXY [style*="--portfolio-text-color: rgba(255, 255, 255, 0.6)"] {
+    --portfolio-text-color: var(--portfolio-secondary) !important;
+  }
+
+  /* ---------- Resume ---------- */
+  /* A long job title wraps instead of being cut off at the screen edge. */
+  #main .portfolio-NqxPT .portfolio-koj4f { width: 100%; }
+  #main .portfolio-NqxPT .portfolio-koj4f > [data-portfolio-component-type="RichTextContainer"] {
+    flex: 1 0 0;
+    width: 1px;
+    white-space: pre-wrap;
+  }
+}
+
+@media (max-width: 359.98px) {
+  #main nav .portfolio-h6um5h { gap: 20px !important; transform: translateX(-22px) !important; }
+  #portfolio-mobile-theme { right: calc((100vw - 288px) / 2); }
+  #main nav a::after,
+  #portfolio-mobile-theme::after { width: var(--tap-target); }
+}

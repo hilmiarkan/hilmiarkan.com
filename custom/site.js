@@ -24,3 +24,24 @@
   addEventListener('resize', schedule);
   update();
 })();
+(() => {
+  // The navigation icons carry no text: name each link and mark the current page.
+  const names = { 'read.cv': 'Resume' };
+  const clean = path => path.replace(/\.html$/, '').replace(/\/$/, '') || '/';
+  function label() {
+    const here = clean(location.pathname);
+    for (const link of document.querySelectorAll('#main nav a[href]')) {
+      const name = link.querySelector('[data-portfolio-name]')?.dataset.portfolioName;
+      if (name && !link.hasAttribute('aria-label')) link.setAttribute('aria-label', names[name] || name);
+      const target = clean(new URL(link.href).pathname);
+      const current = target === '/' ? here === '/' : here === target || here.startsWith(target + '/');
+      if (current) link.setAttribute('aria-current', 'page');
+      else link.removeAttribute('aria-current');
+    }
+  }
+  let queued = false;
+  const schedule = () => { if (!queued) { queued = true; requestAnimationFrame(() => { queued = false; label(); }); } };
+  new MutationObserver(schedule).observe(document.querySelector('#main') || document.body, { childList: true, subtree: true });
+  addEventListener('popstate', schedule);
+  label();
+})();
