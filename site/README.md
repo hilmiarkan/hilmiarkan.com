@@ -36,6 +36,13 @@ In the text, `## Heading` starts a section and `![description](./01.webp)`
 places an image. Two images on consecutive lines sit side by side; three or
 more become a strip that scrolls sideways.
 
+**A photo.** Put the file in `src/assets/photos/` and add its name to a column
+in `src/data/photos.ts`.
+
+**A side project.** Add a block to `src/content/side-projects/projects.yaml`
+and put its images in the same folder. Give it a `full` image to make the card
+open the browser-window overlay.
+
 A missing or misspelled field stops the build with a message naming the file.
 
 ## Where things live
@@ -50,7 +57,10 @@ A missing or misspelled field stops the build with a message naming the file.
 | `src/styles/prose.css` | Typography for Markdown text. |
 | `src/layouts/Base.astro` | Page shell: `<head>`, navigation, theme bootstrap. |
 | `src/layouts/SplitLayout.astro` | Picker + content (works and notes). |
+| `src/data/photos.ts` | Which photo goes in which column. |
+| `src/content/side-projects/` | Side project list and images. |
 | `src/components/HomeCards.tsx` | React component: the draggable home cards. |
+| `src/components/SideProjects.tsx` | React component: project cards and overlay. |
 | `src/components/` | Navigation, pickers, theme toggle, resume row. |
 | `src/data/nav.ts`, `src/data/icons.ts` | Navigation links and icons. |
 | `src/pages/` | One file per URL. |

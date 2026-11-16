@@ -96,17 +96,6 @@
   /* ---------- Notes ---------- */
   #main .portfolio-4Dcx6 h2 { font-size: 12px !important; }
 
-  /* ---------- Side projects ---------- */
-  /* Captions sit below the media, so they follow the page palette. */
-  html[data-theme="light"] #main .portfolio-KpIXY [style*="--portfolio-text-color:rgb(237, 237, 237)"],
-  html[data-theme="light"] #main .portfolio-KpIXY [style*="--portfolio-text-color: rgb(237, 237, 237)"] {
-    --portfolio-text-color: var(--portfolio-text) !important;
-  }
-  html[data-theme="light"] #main .portfolio-KpIXY [style*="--portfolio-text-color:rgba(255, 255, 255, 0.6)"],
-  html[data-theme="light"] #main .portfolio-KpIXY [style*="--portfolio-text-color: rgba(255, 255, 255, 0.6)"] {
-    --portfolio-text-color: var(--portfolio-secondary) !important;
-  }
-
   /* ---------- Resume ---------- */
   /* A long job title wraps instead of being cut off at the screen edge. */
   #main .portfolio-NqxPT .portfolio-koj4f { width: 100%; }

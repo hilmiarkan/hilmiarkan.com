@@ -44,6 +44,7 @@
   --avatar-fold: rgb(0 0 0 / 0.06);
   --avatar-fold-icon: var(--text-muted);
 
+  --media-border: var(--border);
   --picker-active: var(--surface-hover);
   --picker-text: var(--text-secondary);
   --picker-line: var(--border);
@@ -76,6 +77,7 @@
   --avatar-fold: rgb(255 255 255 / 0.1);
   --avatar-fold-icon: #bcbcbc;
 
+  --media-border: rgb(255 255 255 / 0.14);
   --picker-active: #9f852d;
   --picker-text: rgb(255 255 255 / 0.55);
   --picker-line: #333333;

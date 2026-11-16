@@ -2,7 +2,7 @@
 // each entry must have. A typo in a field name fails the build with a clear
 // message instead of silently showing a broken page.
 import { defineCollection } from 'astro:content';
-import { glob } from 'astro/loaders';
+import { file, glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
 // One folder per work: src/content/works/<slug>/index.md plus its images.
@@ -52,4 +52,19 @@ const resume = defineCollection({
   }),
 });
 
-export const collections = { works, notes, resume };
+// A single list: src/content/side-projects/projects.yaml plus its images.
+const sideProjects = defineCollection({
+  loader: file('src/content/side-projects/projects.yaml'),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      date: z.string(),
+      column: z.number().min(1).max(4),
+      order: z.number(),
+      thumb: image().optional(),    // image on the card
+      full: image().optional(),     // long image for the overlay; optional
+      video: z.string().optional(), // looping video instead of thumb
+    }),
+});
+
+export const collections = { works, notes, resume, sideProjects };

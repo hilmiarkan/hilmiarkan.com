@@ -129,7 +129,7 @@ html[data-theme="light"] #main [data-portfolio-component-type="RichTextContainer
   color: var(--portfolio-text);
 }
 /* The video caption sits below its media, so it follows the page text palette. */
-#main .portfolio-sk3beg h3 { color: var(--token-3eb23bfe-3cc9-4468-8ee1-b4c8997b3e63, #eeeeee) !important; --portfolio-text-color: var(--token-3eb23bfe-3cc9-4468-8ee1-b4c8997b3e63, #eeeeee) !important; }
+#main .portfolio-sk3beg :is(h2, h3) { color: var(--token-3eb23bfe-3cc9-4468-8ee1-b4c8997b3e63, #eeeeee) !important; --portfolio-text-color: var(--token-3eb23bfe-3cc9-4468-8ee1-b4c8997b3e63, #eeeeee) !important; }
 #main .portfolio-sk3beg p { color: var(--token-e6ab727f-9a18-40da-9f40-f01b244064e5, #aaaaaa) !important; --portfolio-text-color: var(--token-e6ab727f-9a18-40da-9f40-f01b244064e5, #aaaaaa) !important; }
 
 /* ---------- Pickers ---------- */
