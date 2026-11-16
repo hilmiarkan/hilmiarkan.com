@@ -17,6 +17,15 @@ const works = defineCollection({
       role: z.string(),             // "What I do"
       tools: z.string(),            // "Tech used"
       cover: image(),
+      // Optional Rive animation played over the cover image once it has loaded.
+      rive: z
+        .object({
+          file: z.string(),                     // path under public/, e.g. /rive/paycle.riv
+          artboard: z.string(),
+          stateMachine: z.string().optional(),  // name of the state machine to run, or
+          animation: z.string().optional(),     // name of a single timeline to play
+        })
+        .optional(),
       order: z.number(),            // position in the picker, lowest first
     }),
 });

@@ -6,6 +6,10 @@ headline: "What will happen if Uber has a money transfer service?"
 role: "Web UI Design, Branding, Prototype"
 tools: "Figma, InVision"
 cover: ./cover.png
+rive:
+  file: /rive/paycle.riv
+  artboard: "New Artboard"
+  stateMachine: "State Machine 1"
 order: 2
 ---
 

@@ -6,6 +6,10 @@ headline: "Shelter is my solution for problems with online pet adoption."
 role: "Quantitative Research, UI Design, UT"
 tools: "Figma, Survey Monkey, Miro, Maze"
 cover: ./cover.png
+rive:
+  file: /rive/shelter.riv
+  artboard: "New Artboard"
+  animation: "Timeline 1"
 order: 1
 ---
 

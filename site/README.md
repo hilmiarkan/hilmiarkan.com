@@ -43,6 +43,10 @@ in `src/data/photos.ts`.
 and put its images in the same folder. Give it a `full` image to make the card
 open the browser-window overlay.
 
+To animate a work's cover, put the `.riv` file in `public/rive/` and add a
+`rive:` block to the work (see `src/content/works/paycle/index.md`). The
+`cover` image stays as the still shown before the animation loads.
+
 A missing or misspelled field stops the build with a message naming the file.
 
 ## Where things live
@@ -61,6 +65,8 @@ A missing or misspelled field stops the build with a message naming the file.
 | `src/content/side-projects/` | Side project list and images. |
 | `src/components/HomeCards.tsx` | React component: the draggable home cards. |
 | `src/components/SideProjects.tsx` | React component: project cards and overlay. |
+| `src/components/RiveCover.tsx` | React component: animated work covers (Rive). |
+| `public/rive/` | Rive animation files for the covers. |
 | `src/components/` | Navigation, pickers, theme toggle, resume row. |
 | `src/data/nav.ts`, `src/data/icons.ts` | Navigation links and icons. |
 | `src/pages/` | One file per URL. |

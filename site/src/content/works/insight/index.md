@@ -6,6 +6,10 @@ headline: "Another WebApp freelance project"
 role: "Web UI Design, Branding, Prototype"
 tools: "Figma, InVision"
 cover: ./cover.png
+rive:
+  file: /rive/insight.riv
+  artboard: "sdsd"
+  stateMachine: "State Machine 1"
 order: 3
 ---
 

@@ -6,6 +6,10 @@ headline: "The first time i collaborate for designing a dashboard design"
 role: "UI Design"
 tools: "Figma"
 cover: ./cover.png
+rive:
+  file: /rive/smi.riv
+  artboard: "sdsd"
+  stateMachine: "State Machine 1"
 order: 4
 ---
 
