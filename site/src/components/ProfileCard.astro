@@ -1,0 +1,93 @@
+---
+// The two floating cards on the home page: the avatar and the name card.
+// Static for now; dragging arrives with the React version in a later stage.
+interface Props {
+  name: string;
+  role: string;
+  avatar: string;
+}
+
+const { name, role, avatar } = Astro.props;
+---
+
+<div class="profile">
+  <div class="avatar">
+    <img src={avatar} alt="" width="82" height="82" decoding="async" />
+  </div>
+  <div class="name-card">
+    <h1>{name}</h1>
+    <p>{role}</p>
+  </div>
+</div>
+
+<style>
+  .profile {
+    /* One design pixel. Shrinks only when the name card would not fit. */
+    --u: 1px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    /* The original canvas sits the pair slightly right of centre. */
+    transform: translateX(19.5px);
+  }
+
+  .avatar,
+  .name-card {
+    border: 1px solid var(--card-border);
+    box-shadow: var(--shadow-card);
+  }
+
+  .avatar {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 108px;
+    height: 108px;
+    border-radius: 50%;
+    background: var(--avatar-background);
+  }
+  .avatar img {
+    display: block;
+    border-radius: 50%;
+    object-fit: contain;
+  }
+
+  .name-card {
+    display: flex;
+    flex-direction: column;
+    gap: calc(10 * var(--u));
+    /* 1px less on each side: the border takes that pixel. */
+    padding: calc(15 * var(--u) - 1px) calc(26 * var(--u) - 1px) calc(22 * var(--u) - 1px) calc(21 * var(--u) - 1px);
+    border-radius: calc(19 * var(--u));
+    background: var(--card-background);
+    backdrop-filter: blur(32px);
+    white-space: nowrap;
+  }
+  .name-card h1 {
+    font-family: var(--font-display);
+    font-size: calc(46 * var(--u));
+    font-weight: 200;
+    line-height: 1;
+  }
+  .name-card p {
+    font-family: var(--font-display-light);
+    font-size: calc(20 * var(--u));
+    font-weight: 300;
+    line-height: 1;
+    color: var(--card-subtitle);
+  }
+
+  /* Small screens: avatar above the name card, both centred. */
+  @media (max-width: 1199.98px) {
+    .profile {
+      --u: min(1px, (100vw - 48px) / 426);
+      flex-direction: column;
+      gap: 16px;
+      transform: none;
+    }
+    .avatar,
+    .name-card {
+      box-shadow: var(--shadow-card-compact);
+    }
+  }
+</style>

@@ -1,0 +1,19 @@
+---
+import Base from '../layouts/Base.astro';
+import ProfileCard from '../components/ProfileCard.astro';
+---
+
+<Base>
+  <section class="home">
+    <ProfileCard name="Hilmi Arkan" role="Human Interface Designer & Web Developer" avatar="/images/avatar.avif" />
+  </section>
+</Base>
+
+<style>
+  .home {
+    display: grid;
+    place-items: center;
+    height: 100%;
+    overflow: hidden;
+  }
+</style>

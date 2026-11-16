@@ -1,0 +1,39 @@
+---
+// Temporary: keeps every navigation link working until each section is
+// rebuilt with its real content. Each section gets its own page file then.
+import Base from '../layouts/Base.astro';
+import { navItems } from '../data/nav';
+
+export function getStaticPaths() {
+  return navItems
+    .filter((item) => item.href !== '/')
+    .map((item) => ({ params: { section: item.href.slice(1) }, props: { label: item.label } }));
+}
+
+const { label } = Astro.props;
+---
+
+<Base title={label}>
+  <section class="pending">
+    <h1>{label}</h1>
+    <p>This section has not been rebuilt yet.</p>
+  </section>
+</Base>
+
+<style>
+  .pending {
+    display: grid;
+    place-content: center;
+    gap: 4px;
+    height: 100%;
+    padding: 24px;
+    text-align: center;
+  }
+  .pending h1 {
+    font-size: 18px;
+    font-weight: 500;
+  }
+  .pending p {
+    color: var(--text-secondary);
+  }
+</style>
