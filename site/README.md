@@ -50,10 +50,13 @@ A missing or misspelled field stops the build with a message naming the file.
 | `src/styles/prose.css` | Typography for Markdown text. |
 | `src/layouts/Base.astro` | Page shell: `<head>`, navigation, theme bootstrap. |
 | `src/layouts/SplitLayout.astro` | Picker + content (works and notes). |
-| `src/components/` | Navigation, pickers, theme toggle, resume row, home cards. |
+| `src/components/HomeCards.tsx` | React component: the draggable home cards. |
+| `src/components/` | Navigation, pickers, theme toggle, resume row. |
 | `src/data/nav.ts`, `src/data/icons.ts` | Navigation links and icons. |
 | `src/pages/` | One file per URL. |
 
 `.astro` files render to plain HTML at build time and ship no JavaScript.
-React components (`.tsx`) arrive with the interactive parts (draggable home
-cards, photo gallery) and load only on the pages that use them.
+React components (`.tsx`) are used for the interactive parts and load only on
+the pages that use them, through a `client:*` directive. `HomeCards.tsx` is
+the first one and is commented line by line: start there to see refs, state,
+effects and the `motion` animation library at work.

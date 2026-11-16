@@ -5,9 +5,11 @@ import '../styles/global.css';
 interface Props {
   title?: string;
   description?: string;
+  // Fonts needed for the first screen, fetched early. Text pages use Inter.
+  preloadFonts?: string[];
 }
 
-const { title, description = 'App Developer & UI/UX Designer' } = Astro.props;
+const { title, description = 'App Developer & UI/UX Designer', preloadFonts = ['inter-400'] } = Astro.props;
 const pageTitle = title ? `${title} · Hilmi Arkan` : 'Hilmi Arkan';
 const canonical = new URL(Astro.url.pathname, Astro.site);
 ---
@@ -22,7 +24,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta name="theme-color" content="#ffffff" />
     <link rel="canonical" href={canonical} />
     <link rel="icon" href="/favicon.avif" />
-    <link rel="preload" href="/fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin />
+    {preloadFonts.map((font) => <link rel="preload" href={`/fonts/${font}.woff2`} as="font" type="font/woff2" crossorigin />)}
     <meta property="og:type" content="website" />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />

@@ -1,11 +1,13 @@
 ---
 import Base from '../layouts/Base.astro';
-import ProfileCard from '../components/ProfileCard.astro';
+import HomeCards from '../components/HomeCards.tsx';
 ---
 
-<Base>
-  <section class="home">
-    <ProfileCard name="Hilmi Arkan" role="Human Interface Designer & Web Developer" avatar="/images/avatar.avif" />
+<Base preloadFonts={['helvetica-neue-thin', 'helvetica-neue-light']}>
+  <!-- data-drag-area: the cards can be dragged anywhere inside this section. -->
+  <section class="home" data-drag-area>
+    <!-- client:load = make this React component interactive as soon as the page loads. -->
+    <HomeCards client:load name="Hilmi Arkan" role="Human Interface Designer & Web Developer" avatar="/images/avatar.avif" />
   </section>
 </Base>
 

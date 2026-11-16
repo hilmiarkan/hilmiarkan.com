@@ -36,9 +36,13 @@
   --icon: #666666;
 
   --card-background: var(--surface);
+  --card-background-hover: var(--surface-hover);
   --card-border: var(--border);
   --card-subtitle: var(--text-secondary);
   --avatar-background: var(--surface);
+  --avatar-background-hover: var(--surface-hover);
+  --avatar-fold: rgb(0 0 0 / 0.06);
+  --avatar-fold-icon: var(--text-muted);
 
   --picker-active: var(--surface-hover);
   --picker-text: var(--text-secondary);
@@ -64,9 +68,13 @@
   --icon: #aaaaaa;
 
   --card-background: rgb(255 255 255 / 0.05);
+  --card-background-hover: rgb(255 255 255 / 0.2);
   --card-border: rgb(255 255 255 / 0.05);
   --card-subtitle: rgb(255 255 255 / 0.4);
   --avatar-background: #2e2e2e;
+  --avatar-background-hover: #454545;
+  --avatar-fold: rgb(255 255 255 / 0.1);
+  --avatar-fold-icon: #bcbcbc;
 
   --picker-active: #9f852d;
   --picker-text: rgb(255 255 255 / 0.55);
