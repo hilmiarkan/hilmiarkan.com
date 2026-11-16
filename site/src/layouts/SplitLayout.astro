@@ -1,0 +1,80 @@
+---
+// A picker next to the page it controls. Desktop: picker is a sidebar beside
+// the navigation. Small screens: picker is a horizontal bar docked above the
+// bottom navigation, and the content scrolls above it.
+import Base from './Base.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  sidebarWidth: string;   // desktop width of the picker, e.g. "190px"
+  sidebarLabel: string;   // accessible name, e.g. "Works"
+  fadeIn?: boolean;       // fade the content in when the page opens
+}
+
+const { title, description, sidebarWidth, sidebarLabel, fadeIn = false } = Astro.props;
+---
+
+<Base title={title} description={description}>
+  <div class="split" style={`--sidebar-width: ${sidebarWidth}`}>
+    <aside class="sidebar" aria-label={sidebarLabel} data-picker>
+      <slot name="sidebar" />
+    </aside>
+    <div class:list={['content', { 'fade-in': fadeIn }]}>
+      <slot />
+    </div>
+  </div>
+</Base>
+
+<script>
+  // Small screens: bring the current item into view in the horizontal picker.
+  const picker = document.querySelector<HTMLElement>('[data-picker]');
+  const current = picker?.querySelector<HTMLElement>('[aria-current="page"]');
+  if (picker && current && picker.scrollWidth > picker.clientWidth) {
+    const item = current.getBoundingClientRect();
+    const box = picker.getBoundingClientRect();
+    picker.scrollLeft += item.left - box.left - (box.width - item.width) / 2;
+  }
+</script>
+
+<style>
+  .split {
+    display: grid;
+    grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+    height: 100%;
+  }
+  .sidebar {
+    min-height: 0;
+    overflow: auto;
+    background: var(--background);
+    box-shadow: 1px 0 0 var(--divider);
+  }
+  .content {
+    min-width: 0;
+    min-height: 0;
+    overflow: auto;
+  }
+  .fade-in {
+    animation: content-in 360ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+  @keyframes content-in {
+    from { opacity: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .fade-in { animation: none; }
+  }
+
+  @media (max-width: 1199.98px) {
+    .split {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: minmax(0, 1fr) auto;
+    }
+    .content { grid-row: 1; }
+    .sidebar {
+      grid-row: 2;
+      position: relative;
+      border-top: 1px solid var(--divider);
+      box-shadow: var(--shadow-bar);
+    }
+  }
+</style>

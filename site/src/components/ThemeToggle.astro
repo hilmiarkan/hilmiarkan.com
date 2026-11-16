@@ -1,0 +1,86 @@
+---
+// Light/dark switch. Plain script instead of a framework component because it
+// sits on every page: this keeps text pages free of any framework runtime.
+// The <html data-theme> attribute is set before first paint in Base.astro.
+---
+
+<button type="button" class="theme-toggle" data-theme-toggle aria-label="Switch theme">
+  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path class="moon" d="M20.9 13.3A9 9 0 0 1 10.7 3.1 9 9 0 1 0 20.9 13.3Z"></path>
+    <g class="sun">
+      <circle cx="12" cy="12" r="4"></circle>
+      <path d="M12 2v2m0 16v2M2 12h2m16 0h2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"></path>
+    </g>
+  </svg>
+</button>
+
+<script>
+  const STORAGE_KEY = 'hilmi-theme';
+  const root = document.documentElement;
+  const button = document.querySelector<HTMLButtonElement>('[data-theme-toggle]');
+
+  function describe() {
+    const label = `Switch to ${root.dataset.theme === 'dark' ? 'light' : 'dark'} mode`;
+    button?.setAttribute('aria-label', label);
+    button?.setAttribute('title', label);
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', root.dataset.theme === 'dark' ? '#222222' : '#ffffff');
+  }
+
+  function setTheme(theme: string, remember: boolean) {
+    if (theme !== 'light' && theme !== 'dark') return;
+    const change = () => {
+      root.dataset.theme = theme;
+      describe();
+    };
+    if (remember) {
+      try {
+        localStorage.setItem(STORAGE_KEY, theme);
+      } catch {
+        // Private mode: the choice simply is not remembered.
+      }
+    }
+    const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // Crossfade the two palettes where the browser supports it.
+    if (document.startViewTransition && !reduceMotion && root.dataset.theme !== theme) document.startViewTransition(change);
+    else change();
+  }
+
+  button?.addEventListener('click', () => setTheme(root.dataset.theme === 'dark' ? 'light' : 'dark', true));
+  // Another open tab changed the theme: follow it.
+  addEventListener('storage', (event) => {
+    if (event.key === STORAGE_KEY && event.newValue) setTheme(event.newValue, false);
+  });
+  describe();
+</script>
+
+<style>
+  .theme-toggle {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: var(--nav-icon-size);
+    height: var(--nav-icon-size);
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--icon);
+    cursor: pointer;
+  }
+  /* Moon in light, sun in dark: decided by the theme on <html>, so the right
+     icon shows on the very first paint. */
+  :global(:root[data-theme="light"]) .sun,
+  :global(:root[data-theme="dark"]) .moon {
+    display: none;
+  }
+  @media (max-width: 1199.98px) {
+    .theme-toggle::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: calc(var(--nav-icon-size) + var(--nav-gap));
+      height: var(--tap-target);
+      transform: translate(-50%, -50%);
+    }
+  }
+</style>

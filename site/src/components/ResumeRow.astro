@@ -1,0 +1,63 @@
+---
+// One line of the resume: a date (or label) on the left, details on the right.
+interface Props {
+  period: string;
+  duration?: string;
+  title: string;
+  url?: string;
+  meta?: string;
+  details?: string[];
+}
+
+const { period, duration, title, url, meta, details = [] } = Astro.props;
+---
+
+<div class="row">
+  <div class="when">
+    <p>{period}</p>
+    {duration && <p>{duration}</p>}
+  </div>
+  <div class="what">
+    <h3>
+      {
+        url ? (
+          <a href={url} target="_blank" rel="noopener">
+            {title}
+            <svg class="arrow" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M3.5 3.5h5v5M8.5 3.5 3 9" />
+            </svg>
+          </a>
+        ) : (
+          title
+        )
+      }
+    </h3>
+    {meta && <p class="meta">{meta}</p>}
+    {details.length > 0 && <div class="details">{details.map((line) => <p>{line}</p>)}</div>}
+  </div>
+</div>
+
+<style>
+  .row {
+    display: grid;
+    grid-template-columns: 121px minmax(0, 1fr);
+  }
+  .when { color: var(--text-date); }
+  h3 {
+    font-size: 14px;
+    font-weight: 400;
+  }
+  h3 a { text-decoration: none; }
+  h3 a:hover { text-decoration: underline; }
+  .arrow {
+    margin-left: 1px;
+    vertical-align: top;
+    color: var(--text-muted);
+  }
+  .meta,
+  .details {
+    color: var(--text-secondary);
+  }
+  .meta { margin-top: 5px; }
+  .details { margin-top: 9px; }
+</style>

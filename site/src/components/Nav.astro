@@ -1,6 +1,6 @@
 ---
 import Icon from './Icon.astro';
-import ThemeToggle from './ThemeToggle.tsx';
+import ThemeToggle from './ThemeToggle.astro';
 import { navItems } from '../data/nav';
 
 // "/notes/1" keeps the Notes icon current; "/" only matches the home page.
@@ -21,7 +21,7 @@ const isCurrent = (href: string) => (href === '/' ? path === '/' : path === href
     }
   </ul>
   <div class="nav-theme">
-    <ThemeToggle client:idle />
+    <ThemeToggle />
   </div>
 </nav>
 

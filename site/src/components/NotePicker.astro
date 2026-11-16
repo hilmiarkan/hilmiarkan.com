@@ -1,0 +1,110 @@
+---
+// The list of notes, newest first. `current` is the slug of the open note.
+import { getCollection } from 'astro:content';
+
+interface Props {
+  current?: string;
+}
+
+const { current } = Astro.props;
+const notes = (await getCollection('notes')).sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
+
+const formatDate = (date: Date) =>
+  date.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: '2-digit', timeZone: 'UTC' });
+
+// First line of the note, without Markdown marks, as the preview.
+const preview = (body = '') =>
+  (body.split('\n').find((line) => line.trim()) ?? '').replace(/[*_#>`-]/g, '').trim();
+---
+
+<ul class="picker">
+  {
+    notes.map((note) => (
+      <li>
+        <a class="item" href={`/notes/${note.id}`} aria-current={note.id === current ? 'page' : undefined}>
+          <span class="title">{note.data.title}</span>
+          <span class="meta">
+            <time datetime={note.data.date.toISOString().slice(0, 10)}>{formatDate(note.data.date)}</time>
+            <span class="preview">{preview(note.body)}</span>
+          </span>
+        </a>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .picker {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 14px;
+    list-style: none;
+  }
+  /* Thin rule under every note, inset to line up with the text. */
+  li::after {
+    content: "";
+    display: block;
+    height: 1px;
+    margin: 10px 0 10px 14px;
+    background: var(--picker-line);
+  }
+  .item {
+    display: block;
+    padding: 10px 8px 10px 14px;
+    border-radius: var(--radius-item);
+    text-decoration: none;
+    transition: background-color 160ms ease;
+  }
+  .item:hover { background: var(--surface-hover); }
+  .item[aria-current] { background: var(--picker-active); }
+  .title,
+  .preview {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .title {
+    display: block;
+    font-weight: 700;
+    line-height: 21px;
+    color: var(--text);
+  }
+  .meta {
+    display: flex;
+    gap: 8px;
+    font-size: 13px;
+    line-height: 22.1px;
+    color: var(--text);
+  }
+  .preview {
+    flex: 1;
+    min-width: 0;
+    color: var(--picker-text);
+  }
+
+  /* Small screens: one horizontal row, rules become vertical separators. */
+  @media (max-width: 1199.98px) {
+    .picker {
+      flex-direction: row;
+      align-items: center;
+      width: max-content;
+      padding: 18px;
+    }
+    li {
+      display: flex;
+      align-items: center;
+    }
+    li::after {
+      width: 1px;
+      height: 56px;
+      margin: 0 40px;
+    }
+    .item {
+      width: 278px;
+    }
+    .title {
+      font-size: 12px;
+    }
+  }
+</style>

@@ -1,12 +1,12 @@
 ---
-// Temporary: keeps every navigation link working until each section is
-// rebuilt with its real content. Each section gets its own page file then.
+// Temporary: keeps the Side Projects and Photos links working until those
+// sections are rebuilt. Each gets its own page file then.
 import Base from '../layouts/Base.astro';
 import { navItems } from '../data/nav';
 
 export function getStaticPaths() {
   return navItems
-    .filter((item) => item.href !== '/')
+    .filter((item) => ['/design-projects', '/photos'].includes(item.href))
     .map((item) => ({ params: { section: item.href.slice(1) }, props: { label: item.label } }));
 }
 
