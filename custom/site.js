@@ -45,3 +45,32 @@
   addEventListener('popstate', schedule);
   label();
 })();
+(() => {
+  // Some works were published without a small-screen layout and pin the
+  // viewport to 1200px. mobile.css supplies that layout, so keep the real width.
+  const isWork = () => location.pathname.startsWith('/case-study/');
+  function enforce() {
+    const meta = document.querySelector('meta[name="viewport"]');
+    if (meta && isWork() && meta.content !== 'width=device-width') meta.content = 'width=device-width';
+  }
+  new MutationObserver(enforce).observe(document.head, { childList: true, subtree: true, attributes: true, attributeFilter: ['content'] });
+  enforce();
+
+  // Bring the current project into view in the horizontal picker.
+  const small = matchMedia('(max-width: 1199.98px)');
+  let shown = '';
+  function reveal() {
+    if (!small.matches || shown === location.pathname) return;
+    const active = document.querySelector('#main .portfolio-EqMmV a[data-portfolio-name="Active"]');
+    const picker = active?.closest('.portfolio-EqMmV');
+    if (!picker || picker.scrollWidth <= picker.clientWidth) return;
+    shown = location.pathname;
+    const a = active.getBoundingClientRect(), p = picker.getBoundingClientRect();
+    picker.scrollLeft += a.left - p.left - (p.width - a.width) / 2;
+  }
+  let queued = false;
+  const schedule = () => { if (!queued) { queued = true; requestAnimationFrame(() => { queued = false; reveal(); }); } };
+  new MutationObserver(schedule).observe(document.querySelector('#main') || document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['data-portfolio-name'] });
+  addEventListener('popstate', schedule);
+  reveal();
+})();

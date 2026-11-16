@@ -115,6 +115,68 @@
     width: 1px;
     white-space: pre-wrap;
   }
+
+  /* ---------- Work text sizes ---------- */
+  /* Heading and body presets keep their desktop size instead of shrinking to 9px. */
+  #main [data-portfolio-name="Frame 13"] .portfolio-styles-preset-1hovgd8:not(.rich-text-wrapper),
+  #main [data-portfolio-name="Frame 13"] .portfolio-styles-preset-1hovgd8.rich-text-wrapper h2 {
+    --portfolio-font-size: 18px;
+  }
+  #main [data-portfolio-name="Frame 13"] .portfolio-styles-preset-12lj5ox:not(.rich-text-wrapper),
+  #main [data-portfolio-name="Frame 13"] .portfolio-styles-preset-12lj5ox.rich-text-wrapper h3 {
+    --portfolio-font-size: 14px;
+  }
+
+  /* ---------- Works published without a small-screen layout ---------- */
+  /* These pages only ship the desktop variant (the sidebar navigation,
+     "Variant 1"). Arrange it like the responsive works: article on top,
+     project picker, then the bottom navigation. */
+  #main [data-portfolio-root]:has(> div > nav[data-portfolio-name="Variant 1"]) {
+    flex-direction: column !important;
+    width: 100% !important;
+    overflow: hidden !important;
+  }
+  #main [data-portfolio-root]:has(> div > nav[data-portfolio-name="Variant 1"]) > div:has(> nav) { order: 2; width: 100%; height: auto; }
+  #main [data-portfolio-root]:has(> div > nav[data-portfolio-name="Variant 1"]) > div:has(> .portfolio-EqMmV) { order: 1; width: 100%; height: auto; }
+  #main [data-portfolio-root]:has(> div > nav[data-portfolio-name="Variant 1"]) > [data-portfolio-name="Frame 13"] { order: 0; width: 100% !important; }
+
+  /* Sidebar navigation becomes the bottom bar. */
+  #main [data-portfolio-root]:has(> div > nav[data-portfolio-name="Variant 1"]) > div > nav {
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    height: auto;
+    padding: 16px 18px 52px;
+    --border-top-width: 1px !important;
+    --border-right-width: 0px !important;
+  }
+  html[data-theme="dark"] #main [data-portfolio-root]:has(> div > nav[data-portfolio-name="Variant 1"]) > div > nav {
+    box-shadow: none !important;
+    --border-color: rgb(48, 48, 48) !important;
+  }
+  #main [data-portfolio-root]:has(> div > nav[data-portfolio-name="Variant 1"]) > div > nav > [data-portfolio-name="Back"] { display: none; }
+  #main [data-portfolio-root]:has(> div > nav[data-portfolio-name="Variant 1"]) > div > nav > .portfolio-h6um5h { flex-direction: row; }
+
+  /* Sidebar project list becomes the horizontal picker. */
+  #main [data-portfolio-root]:has(> div > nav[data-portfolio-name="Variant 1"]) > div > .portfolio-EqMmV {
+    flex-direction: row;
+    justify-content: flex-start;
+    width: 100%;
+    height: auto;
+    overflow: auto;
+    --border-top-width: 1px !important;
+    --border-right-width: 0px !important;
+  }
+  html[data-theme="dark"] #main [data-portfolio-root]:has(> div > nav[data-portfolio-name="Variant 1"]) > div > .portfolio-EqMmV {
+    --border-color: rgb(52, 52, 52) !important;
+  }
+  #main [data-portfolio-root]:has(> div > nav[data-portfolio-name="Variant 1"]) > div > .portfolio-EqMmV > div { flex: none; width: 157px; }
+
+  /* Article spacing matches the responsive works. */
+  #main [data-portfolio-root]:has(> div > nav[data-portfolio-name="Variant 1"]) [data-portfolio-name="Y"] {
+    gap: 46px;
+    padding: 28px 24px;
+  }
 }
 
 @media (max-width: 359.98px) {
