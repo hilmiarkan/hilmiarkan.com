@@ -17,6 +17,7 @@ const works = defineCollection({
       role: z.string(),             // "What I do"
       tools: z.string(),            // "Tech used"
       cover: image(),
+      thumbnail: image().optional(),  // small preview shown next to the list on hover
       // Optional Rive animation played over the cover image once it has loaded.
       rive: z
         .object({

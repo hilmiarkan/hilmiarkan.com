@@ -6,6 +6,7 @@ headline: "The first time i collaborate for designing a dashboard design"
 role: "UI Design"
 tools: "Figma"
 cover: ./cover.png
+thumbnail: ./thumbnail.webp
 rive:
   file: /rive/smi.riv
   artboard: "sdsd"

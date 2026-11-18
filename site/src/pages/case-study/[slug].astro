@@ -27,7 +27,7 @@ const facts = [
 <SplitLayout title={title} description={summary} sidebarWidth="190px" sidebarLabel="Works" fadeIn>
   <WorkPicker slot="sidebar" current={work.id} />
 
-  <article class="work">
+  <article class="work appear">
     <div class="cover">
       <Image src={cover} alt="" widths={[640, 1190, 2380]} sizes="(max-width: 1199.98px) 100vw, calc(100vw - 250px)" loading="eager" fetchpriority="high" />
       {/* The still image is in the HTML and shows at once. The animation runs only in the browser (client:only) and fades in over it when ready. */}

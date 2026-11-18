@@ -6,6 +6,7 @@ headline: "My high school have been run an Adiwiyata program\u00a0from Indonesia
 role: "Graphic Design"
 tools: "Illustrator, Photoshop"
 cover: ./cover.webp
+thumbnail: ./thumbnail.avif
 order: 7
 ---
 

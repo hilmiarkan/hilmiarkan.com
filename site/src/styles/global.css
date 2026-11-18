@@ -37,3 +37,16 @@ button { font: inherit; color: inherit; }
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-old(root), ::view-transition-new(root) { animation-duration: 0s; }
 }
+
+/* Content fade when a page opens, as on the original site. Add class
+   "appear" to the block that should fade in. */
+.appear {
+  animation: appear var(--appear-duration) var(--appear-ease) both;
+}
+@keyframes appear {
+  from { opacity: 0.001; }
+  to { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .appear { animation: none; }
+}

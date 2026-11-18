@@ -36,7 +36,7 @@ export default function SideProjects({ projects }: { projects: Project[] }) {
 
   return (
     <>
-      <div className="projects">
+      <div className="projects appear">
         {COLUMNS.map((column) => (
           <div className="projects-column" key={column}>
             {projects
@@ -127,9 +127,6 @@ function Overlay({ project, onClose }: OverlayProps) {
       // inert: while closed, nothing inside can be focused or clicked.
       inert={!project}
       onClick={onClose}
-      onTransitionEnd={() => {
-        if (!project) setShown(null);
-      }}
     >
       {visible?.full && (
         <div
@@ -139,6 +136,10 @@ function Overlay({ project, onClose }: OverlayProps) {
           aria-label={visible.title}
           // A click inside the window must not reach the backdrop and close it.
           onClick={(event) => event.stopPropagation()}
+          // Once the closing fade has finished, the window can be removed.
+          onAnimationEnd={(event) => {
+            if (!project && event.animationName === 'window-out') setShown(null);
+          }}
         >
           <button type="button" className="window-bar" ref={closeButton} onClick={onClose} aria-label="Close">
             <img src="/images/browser-toolbar.svg" alt="" />
