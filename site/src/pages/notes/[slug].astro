@@ -18,7 +18,7 @@ const { Content } = await render(note);
 <SplitLayout title={note.data.title} sidebarWidth="306px" sidebarLabel="Notes">
   <NotePicker slot="sidebar" current={note.id} />
 
-  <article class="note prose">
+  <article class="note prose appear">
     <h1>{note.data.title}</h1>
     <Content />
   </article>

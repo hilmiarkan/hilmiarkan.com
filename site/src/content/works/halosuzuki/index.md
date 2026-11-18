@@ -6,6 +6,7 @@ headline: "Halo Suzuki is a 24-hour toll-free call center service for Sales and 
 role: "Logo Design"
 tools: "Illustrator, Photoshop"
 cover: ./cover.webp
+thumbnail: ./thumbnail.webp
 order: 5
 ---
 

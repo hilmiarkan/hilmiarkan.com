@@ -25,8 +25,37 @@
   background: var(--surface-hover);
   font: inherit;
   text-align: left;
+  /* Growing and shrinking follow the original site's spring. The card stays
+     above its neighbours until it has finished shrinking back. */
+  transition:
+    transform var(--spring-duration) var(--spring),
+    box-shadow var(--spring-duration) var(--spring),
+    z-index 0s linear var(--spring-duration);
 }
 button.card { cursor: pointer; }
+
+/* Hover: the card grows by 10% and lifts, the caption fades away so the whole
+   image shows. Only where there is a pointer, never on touch. */
+@media (hover: hover) {
+  .card:hover {
+    z-index: 1;
+    transform: scale(1.1);
+    box-shadow:
+      0.73px 0.24px 0.69px -0.33px rgb(0 0 0 / 0.1),
+      1.87px 0.6px 1.77px -0.67px rgb(0 0 0 / 0.1),
+      3.74px 1.21px 3.54px -1px rgb(0 0 0 / 0.11),
+      7.09px 2.29px 6.71px -1.33px rgb(0 0 0 / 0.11),
+      14.1px 4.55px 13.34px -1.67px rgb(0 0 0 / 0.12),
+      31px 10px 29.32px -2px rgb(0 0 0 / 0.15);
+    transition:
+      transform var(--spring-duration) var(--spring),
+      box-shadow var(--spring-duration) var(--spring),
+      z-index 0s;
+  }
+  .card:hover .card-caption {
+    opacity: 0;
+  }
+}
 .card img {
   display: block;
   width: 100%;
@@ -45,6 +74,7 @@ button.card { cursor: pointer; }
   padding: 0 14px 14px;
   background: linear-gradient(180deg, rgb(0 0 0 / 0) 0%, rgb(0 0 0 / 0.83) 100%);
   line-height: 24px;
+  transition: opacity var(--spring-duration) var(--spring);
 }
 .card-caption .card-title {
   color: #ededed;
@@ -82,22 +112,38 @@ button.card { cursor: pointer; }
 .video-card .card-date { color: var(--text-secondary); }
 
 /* ---------- Overlay ---------- */
-/* Covers the page area only: the navigation stays visible and usable. */
+/* Covers the page area only: the navigation stays visible and usable.
+   As on the original site, the dimmed backdrop appears and disappears at
+   once; only the window fades. While closing, the overlay stays in place
+   (without backdrop) until the window has faded out. */
 .overlay {
   position: absolute;
   inset: 0;
   z-index: 10;
   display: grid;
   padding: 60px;
-  background: rgb(34 34 34 / 0.96);
-  opacity: 0;
+  background: transparent;
   visibility: hidden;
-  transition: opacity 300ms ease-in, visibility 0s linear 300ms;
+  transition: visibility 0s linear var(--appear-duration);
 }
 .overlay[data-open="true"] {
-  opacity: 1;
+  background: rgb(34 34 34 / 0.96);
   visibility: visible;
-  transition: opacity 300ms ease-in;
+  transition: none;
+}
+.overlay[data-open="true"] .window {
+  animation: window-in var(--appear-duration) var(--appear-ease) both;
+}
+.overlay[data-open="false"] .window {
+  animation: window-out var(--appear-duration) var(--appear-ease) both;
+}
+@keyframes window-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes window-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
 }
 
 /* A browser window: toolbar on top, the design scrolling underneath. */
@@ -155,4 +201,8 @@ button.card { cursor: pointer; }
 @media (prefers-reduced-motion: reduce) {
   .overlay,
   .overlay[data-open="true"] { transition: none; }
+  .overlay .window { animation-duration: 1ms !important; }
+  .card,
+  .card:hover,
+  .card-caption { transition: none; }
 }

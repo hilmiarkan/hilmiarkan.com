@@ -20,6 +20,17 @@
   --radius-item: 12px;
 
   --theme-fade: 280ms;
+
+  /* Motion, measured on the original site.
+     appear: how content fades in when a page opens.
+     hover: list items, 200ms (works) / 300ms (notes).
+     spring: Framer's default spring (stiffness 500, damping 60), used by the
+     side-project cards. */
+  --appear-duration: 300ms;
+  --appear-ease: cubic-bezier(0.5, 0, 0.88, 0.77);
+  --ease-out-quad: cubic-bezier(0.5, 1, 0.89, 1);
+  --spring-duration: 600ms;
+  --spring: linear(0, 0.098 4.2%, 0.262 8.3%, 0.415 12.5%, 0.542 16.7%, 0.642 20.8%, 0.721 25%, 0.783 29.2%, 0.831 33.3%, 0.868 37.5%, 0.897 41.7%, 0.92 45.8%, 0.938 50%, 0.952 54.2%, 0.962 58.3%, 0.971 62.5%, 0.977 66.7%, 0.982 70.8%, 0.986 75%, 0.989 79.2%, 0.992 83.3%, 0.993 87.5%, 0.995 91.7%, 0.996 95.8%, 1);
 }
 
 :root[data-theme="light"] {
@@ -45,6 +56,11 @@
   --avatar-fold-icon: var(--text-muted);
 
   --media-border: var(--border);
+  /* Same value as the original site, which shows no hover background in
+     the light theme (the works list still shows its preview image). */
+  --item-hover: rgb(255 255 255 / 0.1);
+  --tooltip-background: var(--surface);
+  --tooltip-text: var(--text);
   --picker-active: var(--surface-hover);
   --picker-text: var(--text-secondary);
   --picker-line: var(--border);
@@ -78,6 +94,9 @@
   --avatar-fold-icon: #bcbcbc;
 
   --media-border: rgb(255 255 255 / 0.14);
+  --item-hover: rgb(255 255 255 / 0.1);
+  --tooltip-background: #111111;
+  --tooltip-text: #eeeeee;
   --picker-active: #9f852d;
   --picker-text: rgb(255 255 255 / 0.55);
   --picker-line: #333333;

@@ -16,6 +16,7 @@ const isCurrent = (href: string) => (href === '/' ? path === '/' : path === href
         <li>
           <a class="nav-link" href={item.href} aria-label={item.label} aria-current={isCurrent(item.href) ? 'page' : undefined}>
             <Icon name={item.icon} />
+            <span class="nav-tip" aria-hidden="true">{item.label}</span>
           </a>
         </li>
       ))
@@ -58,6 +59,35 @@ const isCurrent = (href: string) => (href === '/' ? path === '/' : path === href
     place-items: center;
     width: var(--nav-icon-size);
     height: var(--nav-icon-size);
+  }
+
+  /* Label next to the icon while the pointer is over it. Appears at once,
+     with no animation, as on the original site. */
+  .nav-tip {
+    position: absolute;
+    top: 50%;
+    left: 32px;
+    display: none;
+    padding: 6px 8px;
+    border-radius: 8px;
+    background: var(--tooltip-background);
+    color: var(--tooltip-text);
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 12px;
+    white-space: nowrap;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+  @media (hover: hover) and (min-width: 1200px) {
+    /* Above the page next to the sidebar, so the label is never covered. */
+    .nav {
+      position: relative;
+      z-index: 10;
+    }
+    .nav-link:hover .nav-tip {
+      display: block;
+    }
   }
 
   /* Small screens: the same links as a bottom bar, with the toggle as the last slot. */

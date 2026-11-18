@@ -6,6 +6,7 @@ headline: "\"Halal Bi Halal\" is an arab term for gathering. And in\u00a0this pr
 role: "Graphic Design"
 tools: "Illustrator, Photoshop"
 cover: ./cover.webp
+thumbnail: ./thumbnail.webp
 order: 6
 ---
 

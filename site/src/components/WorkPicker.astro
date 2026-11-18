@@ -1,6 +1,7 @@
 ---
 // The list of works. `current` is the slug of the open work, if any.
 import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
 
 interface Props {
   current?: string;
@@ -10,22 +11,37 @@ const { current } = Astro.props;
 const works = (await getCollection('works')).sort((a, b) => a.data.order - b.data.order);
 ---
 
-<ul class="picker">
+<ul class="picker" data-work-picker>
   {
     works.map((work) => (
       <li>
-        <a class="item" href={`/case-study/${work.id}`} aria-current={work.id === current ? 'page' : undefined}>
+        <a class="item" data-work-item href={`/case-study/${work.id}`} aria-current={work.id === current ? 'page' : undefined}>
           <span class="head">
             <span class="name">{work.data.title}</span>
             <span class="line" />
             <span class="year">{work.data.year}</span>
           </span>
           <span class="summary">{work.data.summary}</span>
+          {work.data.thumbnail && work.id !== current && (
+            <Image class="preview" src={work.data.thumbnail} alt="" widths={[160, 320]} sizes="160px" loading="lazy" decoding="async" />
+          )}
         </a>
       </li>
     ))
   }
 </ul>
+
+<script>
+  // The preview sits outside the scrolling list (position: fixed), so it is
+  // never clipped; this places it next to whichever item the pointer is on.
+  for (const item of document.querySelectorAll<HTMLElement>('[data-work-item]')) {
+    item.addEventListener('pointerenter', () => {
+      const box = item.getBoundingClientRect();
+      item.style.setProperty('--preview-x', `${box.right + 26}px`);
+      item.style.setProperty('--preview-y', `${box.top - 5}px`);
+    });
+  }
+</script>
 
 <style>
   .picker {
@@ -42,10 +58,35 @@ const works = (await getCollection('works')).sort((a, b) => a.data.order - b.dat
     padding: 8px 14px 0;
     border-radius: var(--radius-item);
     text-decoration: none;
-    transition: background-color 160ms ease;
+    transition: background-color 200ms var(--ease-out-quad);
   }
-  .item:hover { background: var(--surface-hover); }
+  .item:hover { background: var(--item-hover); }
   .item[aria-current] { background: var(--picker-active); }
+
+  /* Preview of the project next to the list while hovering it. Fades in;
+     disappears at once when the pointer leaves, as on the original site. */
+  .preview {
+    display: none;
+  }
+  @media (hover: hover) and (min-width: 1200px) {
+    .preview {
+      position: fixed;
+      top: var(--preview-y, 0);
+      left: var(--preview-x, 0);
+      z-index: 20;
+      display: block;
+      width: 160px;
+      height: 92px;
+      border-radius: var(--radius-item);
+      object-fit: cover;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .item:hover .preview {
+      opacity: 1;
+      transition: opacity 200ms var(--ease-out-quad);
+    }
+  }
   .head {
     display: flex;
     align-items: center;

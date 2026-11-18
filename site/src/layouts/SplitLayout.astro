@@ -10,14 +10,15 @@ interface Props {
   sidebarWidth: string;   // desktop width of the picker, e.g. "190px"
   sidebarLabel: string;   // accessible name, e.g. "Works"
   fadeIn?: boolean;       // fade the content in when the page opens
+  fadeSidebar?: boolean;  // fade the picker in when the page opens
 }
 
-const { title, description, sidebarWidth, sidebarLabel, fadeIn = false } = Astro.props;
+const { title, description, sidebarWidth, sidebarLabel, fadeIn = false, fadeSidebar = false } = Astro.props;
 ---
 
 <Base title={title} description={description}>
   <div class="split" style={`--sidebar-width: ${sidebarWidth}`}>
-    <aside class="sidebar" aria-label={sidebarLabel} data-picker>
+    <aside class:list={['sidebar', { appear: fadeSidebar }]} aria-label={sidebarLabel} data-picker>
       <slot name="sidebar" />
     </aside>
     <div class:list={['content', { 'fade-in': fadeIn }]}>

@@ -6,6 +6,7 @@ headline: "Another WebApp freelance project"
 role: "Web UI Design, Branding, Prototype"
 tools: "Figma, InVision"
 cover: ./cover.png
+thumbnail: ./thumbnail.webp
 rive:
   file: /rive/insight.riv
   artboard: "sdsd"
