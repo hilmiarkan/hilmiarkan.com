@@ -1,0 +1,132 @@
+.home-cards {
+  /* One design pixel. Shrinks only when the name card would not fit. */
+  --u: 1px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  /* The original canvas sits the pair slightly right of centre. */
+  transform: translateX(19.5px);
+}
+
+/* ---------- Shared: anything draggable ---------- */
+.drag-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--card-border);
+  box-shadow: var(--shadow-card);
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  transition: background-color 300ms ease-out;
+}
+
+/* Soft light that follows the pointer while hovering. Its centre sits on the
+   card's top-left corner; the component moves it from there. */
+.drag-card-glow {
+  position: absolute;
+  top: -93px;
+  left: -93px;
+  width: 186px;
+  height: 186px;
+  border-radius: 50%;
+  background: radial-gradient(50% 50% at 50% 50%, rgb(255 255 255 / 0.4) 0%, rgb(255 255 255 / 0) 100%);
+  filter: blur(40px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 300ms ease-out;
+}
+
+/* Hover effects only where there is a real pointer, never on touch. */
+@media (hover: hover) {
+  .drag-card:hover .drag-card-glow { opacity: 1; }
+  .avatar-card:hover { background: var(--avatar-background-hover); }
+  .avatar-card:hover .avatar-fold { opacity: 1; }
+  .name-card:hover { background: var(--card-background-hover); }
+}
+
+/* ---------- Avatar ---------- */
+.avatar-card {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 108px;
+  height: 108px;
+  border-radius: 50%;
+  background: var(--avatar-background);
+  cursor: pointer;
+}
+.avatar-card img {
+  position: relative;
+  display: block;
+  border-radius: 50%;
+  object-fit: contain;
+  pointer-events: none;
+}
+/* Folded corner that appears on hover: a square turned 45 degrees, mostly
+   clipped by the round card. */
+.avatar-fold {
+  position: absolute;
+  top: 77px;
+  left: 77px;
+  display: flex;
+  justify-content: center;
+  width: 75px;
+  height: 75px;
+  background: var(--avatar-fold);
+  color: var(--avatar-fold-icon);
+  transform: rotate(-45deg);
+  opacity: 0;
+  transition: opacity 300ms ease-out;
+}
+
+/* ---------- Name card ---------- */
+.name-card {
+  display: flex;
+  flex-direction: column;
+  gap: calc(10 * var(--u));
+  /* 1px less on each side: the border takes that pixel. */
+  padding: calc(15 * var(--u) - 1px) calc(26 * var(--u) - 1px) calc(22 * var(--u) - 1px) calc(21 * var(--u) - 1px);
+  border-radius: calc(19 * var(--u));
+  background: var(--card-background);
+  backdrop-filter: blur(32px);
+  -webkit-backdrop-filter: blur(32px);
+  white-space: nowrap;
+}
+.name-card h1,
+.name-card p {
+  position: relative;
+}
+.name-card h1 {
+  font-family: var(--font-display);
+  font-size: calc(46 * var(--u));
+  font-weight: 200;
+  line-height: 1;
+}
+.name-card p {
+  font-family: var(--font-display-light);
+  font-size: calc(20 * var(--u));
+  font-weight: 300;
+  line-height: 1;
+  color: var(--card-subtitle);
+}
+
+/* Small screens: avatar above the name card, both centred. */
+@media (max-width: 1199.98px) {
+  .home-cards {
+    --u: min(1px, (100vw - 48px) / 426);
+    flex-direction: column;
+    gap: 16px;
+    transform: none;
+  }
+  .drag-card {
+    box-shadow: var(--shadow-card-compact);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .drag-card,
+  .drag-card-glow,
+  .avatar-fold { transition: none; }
+}

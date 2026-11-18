@@ -1,0 +1,8 @@
+/*
+ * DotsThree (phosphor-icons/DotsThree@0.0.50)
+ *
+ * Learn More: https://www.framer.com/asset-urls
+ */
+
+export * from "/assets/portfolio-b4d3f2a4c8f24a09a572.js"
+export { default } from "/assets/portfolio-b4d3f2a4c8f24a09a572.js"

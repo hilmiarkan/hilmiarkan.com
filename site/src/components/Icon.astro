@@ -1,0 +1,21 @@
+---
+import { icons, type IconName } from '../data/icons';
+
+interface Props {
+  name: IconName;
+}
+
+const { name } = Astro.props;
+const icon = icons[name];
+const [, , width, height] = icon.viewBox.split(' ').map(Number);
+---
+
+<svg
+  class="icon"
+  viewBox={icon.viewBox}
+  width={Math.round(width)}
+  height={Math.round(height)}
+  overflow="visible"
+  aria-hidden="true"
+  set:html={icon.body}
+/>

@@ -1,0 +1,46 @@
+---
+// One page per note. Adding a note is adding a Markdown file to
+// src/content/notes; its file name becomes the URL.
+import { getCollection, render } from 'astro:content';
+import SplitLayout from '../../layouts/SplitLayout.astro';
+import NotePicker from '../../components/NotePicker.astro';
+import '../../styles/prose.css';
+
+export async function getStaticPaths() {
+  const notes = await getCollection('notes');
+  return notes.map((note) => ({ params: { slug: note.id }, props: { note } }));
+}
+
+const { note } = Astro.props;
+const { Content } = await render(note);
+---
+
+<SplitLayout title={note.data.title} sidebarWidth="306px" sidebarLabel="Notes">
+  <NotePicker slot="sidebar" current={note.id} />
+
+  <article class="note prose">
+    <h1>{note.data.title}</h1>
+    <Content />
+  </article>
+</SplitLayout>
+
+<style>
+  .note {
+    max-width: calc(554px + 48px);
+    margin: 0 auto;
+    padding: 72px 24px;
+  }
+  h1 {
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 23.8px;
+  }
+  /* A note is written line by line: keep every line break as typed. */
+  .note :global(p) {
+    margin-top: 24px;
+    white-space: pre-line;
+  }
+  @media (max-width: 1199.98px) {
+    .note { padding: 43px 43px; }
+  }
+</style>

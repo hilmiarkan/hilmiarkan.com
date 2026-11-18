@@ -1,0 +1,88 @@
+---
+// The list of works. `current` is the slug of the open work, if any.
+import { getCollection } from 'astro:content';
+
+interface Props {
+  current?: string;
+}
+
+const { current } = Astro.props;
+const works = (await getCollection('works')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<ul class="picker">
+  {
+    works.map((work) => (
+      <li>
+        <a class="item" href={`/case-study/${work.id}`} aria-current={work.id === current ? 'page' : undefined}>
+          <span class="head">
+            <span class="name">{work.data.title}</span>
+            <span class="line" />
+            <span class="year">{work.data.year}</span>
+          </span>
+          <span class="summary">{work.data.summary}</span>
+        </a>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .picker {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0;
+    padding: 14px;
+    list-style: none;
+  }
+  .item {
+    display: block;
+    height: 81px;
+    padding: 8px 14px 0;
+    border-radius: var(--radius-item);
+    text-decoration: none;
+    transition: background-color 160ms ease;
+  }
+  .item:hover { background: var(--surface-hover); }
+  .item[aria-current] { background: var(--picker-active); }
+  .head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    line-height: 23.8px;
+  }
+  .name {
+    font-weight: 700;
+    color: var(--text);
+    white-space: nowrap;
+  }
+  .line {
+    flex: 1;
+    height: 1px;
+    background: var(--picker-line);
+  }
+  .item[aria-current] .line {
+    background: var(--picker-line-active);
+  }
+  .year,
+  .summary {
+    color: var(--picker-text);
+  }
+  .summary {
+    display: block;
+    font-size: 13px;
+    line-height: 22.1px;
+  }
+
+  /* Small screens: one horizontal row that scrolls sideways. */
+  @media (max-width: 1199.98px) {
+    .picker {
+      flex-direction: row;
+      width: max-content;
+    }
+    .item {
+      width: 157px;
+    }
+  }
+</style>

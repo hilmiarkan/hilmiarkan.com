@@ -1,0 +1,114 @@
+# Side projects. Each entry is one card. `column` (1-4) is its column on wide
+# screens; `order` sorts cards within a column, and the whole list on phones.
+#
+#   thumb  image on the card
+#   full   long image shown in the browser-window overlay when the card is
+#          clicked. Leave it out and the card is simply not clickable.
+#   video  used instead of thumb for a looping video card
+#
+# Image paths are relative to this file.
+
+- id: eatwise
+  title: "Eatwise"
+  date: "2023 - HCI Subject"
+  column: 1
+  order: 1
+  video: /videos/eatwise.mp4
+
+- id: japanese-website
+  title: "Japanese Website"
+  date: "July 2021"
+  column: 1
+  order: 2
+  thumb: ./japanese-website.avif
+
+- id: mobile-vps
+  title: "Mobile VPS"
+  date: "August 2021"
+  column: 2
+  order: 3
+  thumb: ./mobile-vps.avif
+  full: ./mobile-vps-full.webp
+
+- id: widatra-bhakti
+  title: "Widatra Bhakti"
+  date: "December 2020"
+  column: 2
+  order: 4
+  thumb: ./widatra-bhakti.avif
+  full: ./widatra-bhakti-full.webp
+
+- id: mypertamina-redesign
+  title: "MyPertamina Redesign"
+  date: "March 2022"
+  column: 2
+  order: 5
+  thumb: ./mypertamina-redesign.avif
+
+- id: collaboration-platform
+  title: "Collaboration Platform"
+  date: "July 2021"
+  column: 2
+  order: 6
+  thumb: ./collaboration-platform.avif
+
+- id: kiosk-locker
+  title: "Kiosk Locker"
+  date: "July 2021"
+  column: 3
+  order: 7
+  thumb: ./kiosk-locker.avif
+  full: ./kiosk-locker-full.webp
+
+- id: electro-fusion-utils-app
+  title: "Electro Fusion Utils App"
+  date: "August 2021"
+  column: 3
+  order: 8
+  thumb: ./electro-fusion-utils-app.avif
+  full: ./electro-fusion-utils-app-full.webp
+
+- id: uclg-aspac
+  title: "UCLG ASPAC"
+  date: "December 2021"
+  column: 3
+  order: 9
+  thumb: ./uclg-aspac.avif
+
+- id: deburring-company
+  title: "Deburring Company"
+  date: "August 2021"
+  column: 3
+  order: 10
+  thumb: ./deburring-company.avif
+
+- id: art-social-media
+  title: "Art Social Media"
+  date: "July 2021"
+  column: 4
+  order: 11
+  thumb: ./art-social-media.avif
+  full: ./art-social-media-full.webp
+
+- id: chargeguard-insight
+  title: "ChargeGuard Insight"
+  date: "June 2021"
+  column: 4
+  order: 12
+  thumb: ./chargeguard-insight.avif
+  full: ./chargeguard-insight-full.webp
+
+- id: book-landing-page
+  title: "Book landing Page"
+  date: "August 2021"
+  column: 4
+  order: 13
+  thumb: ./book-landing-page.avif
+
+- id: webinar-landing-page
+  title: "Webinar Landing Page"
+  date: "July 2021"
+  column: 4
+  order: 14
+  thumb: ./webinar-landing-page.avif
+

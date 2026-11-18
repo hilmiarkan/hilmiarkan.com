@@ -1,0 +1,97 @@
+---
+// The photo wall. Which photo goes in which column is set in src/data/photos.ts.
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import Base from '../layouts/Base.astro';
+import { photoColumns, type Photo } from '../data/photos';
+
+// Every file in src/assets/photos, keyed by file name.
+const files = import.meta.glob<{ default: ImageMetadata }>('../assets/photos/*', { eager: true });
+const byName = Object.fromEntries(Object.entries(files).map(([path, mod]) => [path.split('/').pop()!, mod.default]));
+
+const resolve = (photo: Photo) => {
+  const file = typeof photo === 'string' ? photo : photo.file;
+  const image = byName[file];
+  if (!image) throw new Error(`photos.ts lists "${file}" but src/assets/photos/${file} does not exist`);
+  const options = typeof photo === 'string' ? {} : photo;
+  return { image, alt: options.alt ?? '', ratio: options.ratio };
+};
+
+const columns = photoColumns.map((column) => column.map(resolve));
+// On phones the five columns merge into two: odd columns left, even right.
+const sides = [
+  { name: 'left', columns: columns.map((photos, index) => ({ photos, index })).filter((c) => c.index % 2 === 0) },
+  { name: 'right', columns: columns.map((photos, index) => ({ photos, index })).filter((c) => c.index % 2 === 1) },
+];
+---
+
+<Base title="Photos">
+  <div class="wall">
+    {
+      sides.map((side) => (
+        <div class:list={['side', side.name]}>
+          {side.columns.map((column) => (
+            <div class="column" style={`--order: ${column.index}`} data-column={column.index + 1}>
+              {column.photos.map(({ image, alt, ratio }, i) => (
+                <Image
+                  class="photo"
+                  src={image}
+                  alt={alt}
+                  style={ratio ? `aspect-ratio: ${ratio}` : undefined}
+                  widths={[250, 500, 750]}
+                  sizes="(max-width: 1199.98px) 45vw, 250px"
+                  loading={i < 2 ? 'eager' : 'lazy'}
+                />
+              ))}
+            </div>
+          ))}
+        </div>
+      ))
+    }
+  </div>
+</Base>
+
+<style>
+  .wall {
+    --gap: 24px;
+    display: flex;
+    align-items: flex-start;
+    gap: var(--gap);
+    padding: 24px;
+  }
+  /* Wide screens: the two sides dissolve and the five columns sit in a row. */
+  .side { display: contents; }
+  .column {
+    order: var(--order);
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap);
+  }
+  /* The fourth column starts lower, as in the original layout. */
+  .column[data-column="4"] { margin-top: 84px; }
+  .photo {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border: 1px solid var(--media-border);
+    border-radius: var(--radius-item);
+  }
+
+  /* Small screens: two columns, the left one starting lower. */
+  @media (max-width: 1199.98px) {
+    .wall { --gap: 21px; }
+    .side {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .side.left { margin-top: 147px; }
+    .column { flex: none; gap: 24px; }
+    .column[data-column="4"] { margin-top: 0; }
+  }
+</style>

@@ -1,0 +1,93 @@
+# hilmiarkan.com (rebuild)
+
+Astro + React rebuild of the site. The published export in the repository root
+stays live until this version replaces it.
+
+## Run it
+
+```sh
+npm install
+npm run dev      # http://localhost:4321, reloads on save
+npm run build    # static output in dist/
+```
+
+## Deploy (Cloudflare Pages)
+
+Project settings in the Cloudflare dashboard:
+
+| Setting | Value |
+| --- | --- |
+| Framework preset | Astro |
+| Root directory | `site` |
+| Build command | `npm run build` |
+| Build output directory | `dist` |
+
+Every push builds and publishes automatically. `public/_headers` sets caching,
+`public/_redirects` holds redirects, `src/pages/404.astro` is the not-found
+page, and `.node-version` pins the Node version Cloudflare builds with.
+
+## Add or edit content
+
+**A note.** Create `src/content/notes/<name>.md`. The file name becomes the
+URL (`/notes/<name>`). Line breaks are kept exactly as typed.
+
+```md
+---
+title: "Title shown in the list"
+date: 2026-11-16
+---
+
+First line of the note.
+Second line.
+```
+
+**The resume.** Edit `src/data/resume.yaml`. Add a job by copying an existing
+block under `experience`.
+
+**A work.** Create a folder `src/content/works/<name>/` with an `index.md` and
+its images beside it. Copy the top block (`title`, `year`, `summary`,
+`headline`, `role`, `tools`, `cover`, `order`) from an existing work.
+In the text, `## Heading` starts a section and `![description](./01.webp)`
+places an image. Two images on consecutive lines sit side by side; three or
+more become a strip that scrolls sideways.
+
+**A photo.** Put the file in `src/assets/photos/` and add its name to a column
+in `src/data/photos.ts`.
+
+**A side project.** Add a block to `src/content/side-projects/projects.yaml`
+and put its images in the same folder. Give it a `full` image to make the card
+open the browser-window overlay.
+
+To animate a work's cover, put the `.riv` file in `public/rive/` and add a
+`rive:` block to the work (see `src/content/works/paycle/index.md`). The
+`cover` image stays as the still shown before the animation loads.
+
+A missing or misspelled field stops the build with a message naming the file.
+
+## Where things live
+
+| Path | What it is |
+| --- | --- |
+| `src/content/notes/` | Notes, one Markdown file each. |
+| `src/content/works/` | Works, one folder each (text + images). |
+| `src/data/resume.yaml` | All resume text. |
+| `src/content.config.ts` | The fields each kind of content must have. |
+| `src/styles/tokens.css` | Every color, shadow and size. Change the look here. |
+| `src/styles/prose.css` | Typography for Markdown text. |
+| `src/layouts/Base.astro` | Page shell: `<head>`, navigation, theme bootstrap. |
+| `src/layouts/SplitLayout.astro` | Picker + content (works and notes). |
+| `src/data/photos.ts` | Which photo goes in which column. |
+| `src/content/side-projects/` | Side project list and images. |
+| `src/components/HomeCards.tsx` | React component: the draggable home cards. |
+| `src/components/SideProjects.tsx` | React component: project cards and overlay. |
+| `src/components/RiveCover.tsx` | React component: animated work covers (Rive). |
+| `public/rive/` | Rive animation files for the covers. |
+| `src/components/` | Navigation, pickers, theme toggle, resume row. |
+| `src/data/nav.ts`, `src/data/icons.ts` | Navigation links and icons. |
+| `src/pages/` | One file per URL. |
+
+`.astro` files render to plain HTML at build time and ship no JavaScript.
+React components (`.tsx`) are used for the interactive parts and load only on
+the pages that use them, through a `client:*` directive. `HomeCards.tsx` is
+the first one and is commented line by line: start there to see refs, state,
+effects and the `motion` animation library at work.

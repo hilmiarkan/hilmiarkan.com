@@ -1,0 +1,67 @@
+/* Typography for Markdown content (works and notes). Wrap the rendered
+   content in an element with class "prose". */
+
+.prose {
+  font-size: 14px;
+  line-height: 23.8px;
+  color: var(--text);
+}
+.prose > * + * { margin-top: 16px; }
+
+.prose h2 {
+  margin-top: 42px;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 27px;
+}
+.prose > :first-child { margin-top: 0; }
+
+.prose ul,
+.prose ol {
+  margin-bottom: 0;
+  padding-left: 18px;
+}
+.prose li + li { margin-top: 2px; }
+
+.prose a {
+  color: var(--focus-ring);
+}
+
+.prose img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-item);
+}
+/* An image on its own gets the same breathing room as a section. */
+.prose p:has(> img) { margin-top: 42px; }
+.prose p:has(> img) + * { margin-top: 42px; }
+.prose p:has(> img) + h2 { margin-top: 42px; }
+
+/* Two images written on consecutive lines sit side by side. */
+.prose p:has(> img + img) {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 42px;
+}
+.prose p:has(> img + img) br { display: none; }
+
+/* Three or more become a strip that scrolls sideways (phone screens). */
+.prose p:has(> img:nth-of-type(3)) {
+  display: flex;
+  gap: 26px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.prose p:has(> img:nth-of-type(3)) img {
+  flex: none;
+  width: 176px;
+  border-radius: 0;
+}
+
+@media (max-width: 1199.98px) {
+  .prose h2,
+  .prose p:has(> img),
+  .prose p:has(> img) + * { margin-top: 32px; }
+  .prose p:has(> img + img) { gap: 16px; }
+}

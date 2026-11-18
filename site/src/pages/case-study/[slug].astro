@@ -1,0 +1,110 @@
+---
+// One page per work. Astro builds a page for every folder in
+// src/content/works, so adding a work is adding a folder there.
+import { getCollection, render } from 'astro:content';
+import { Image } from 'astro:assets';
+import SplitLayout from '../../layouts/SplitLayout.astro';
+import WorkPicker from '../../components/WorkPicker.astro';
+import RiveCover from '../../components/RiveCover.tsx';
+import '../../styles/prose.css';
+
+export async function getStaticPaths() {
+  const works = await getCollection('works');
+  return works.map((work) => ({ params: { slug: work.id }, props: { work } }));
+}
+
+const { work } = Astro.props;
+const { Content } = await render(work);
+const { title, year, role, tools, headline, cover, summary, rive } = work.data;
+
+const facts = [
+  { label: 'Year', value: year },
+  { label: 'What I do', value: role },
+  { label: 'Tech used', value: tools },
+];
+---
+
+<SplitLayout title={title} description={summary} sidebarWidth="190px" sidebarLabel="Works" fadeIn>
+  <WorkPicker slot="sidebar" current={work.id} />
+
+  <article class="work">
+    <div class="cover">
+      <Image src={cover} alt="" widths={[640, 1190, 2380]} sizes="(max-width: 1199.98px) 100vw, calc(100vw - 250px)" loading="eager" fetchpriority="high" />
+      {/* The still image is in the HTML and shows at once. The animation runs only in the browser (client:only) and fades in over it when ready. */}
+      {rive && <RiveCover client:only="react" {...rive} />}
+    </div>
+
+    <div class="body">
+      <dl class="facts">
+        {
+          facts.map((fact) => (
+            <div class="fact">
+              <dt>{fact.label}</dt>
+              <span class="line" />
+              <dd>{fact.value}</dd>
+            </div>
+          ))
+        }
+      </dl>
+
+      <h1>{headline}</h1>
+
+      <div class="prose">
+        <Content />
+      </div>
+    </div>
+  </article>
+</SplitLayout>
+
+<style>
+  .cover {
+    position: relative;
+    aspect-ratio: 1190 / 527;
+    overflow: hidden;
+  }
+  .cover img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .body {
+    max-width: calc(var(--content-width) + 48px);
+    margin: 0 auto;
+    padding: 72px 24px;
+  }
+
+  .facts {
+    display: grid;
+    gap: 10px;
+    margin: 0 0 64px;
+    font-size: 13px;
+    line-height: 22.1px;
+  }
+  .fact {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .fact dt { color: var(--text-muted); }
+  .fact dd { margin: 0; text-align: right; }
+  .fact .line {
+    flex: 1;
+    min-width: 16px;
+    height: 1px;
+    background: var(--picker-line);
+  }
+
+  h1 {
+    margin-bottom: 42px;
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 42px;
+  }
+
+  @media (max-width: 1199.98px) {
+    .body { padding: 28px 24px; }
+    .facts { margin-bottom: 46px; }
+    h1 { margin-bottom: 32px; }
+  }
+</style>

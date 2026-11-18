@@ -1,0 +1,32 @@
+---
+// Side Projects. The list lives in src/content/side-projects/projects.yaml.
+// This page prepares the images at build time and hands plain data to the
+// React component, which handles opening and closing the overlay.
+import { getCollection } from 'astro:content';
+import { getImage } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import SideProjects, { type Project } from '../components/SideProjects.tsx';
+
+const entries = (await getCollection('sideProjects')).sort((a, b) => a.data.order - b.data.order);
+
+const projects: Project[] = await Promise.all(
+  entries.map(async ({ id, data }) => {
+    const thumb = data.thumb && (await getImage({ src: data.thumb, width: 684 }));
+    const full = data.full && (await getImage({ src: data.full, width: Math.min(data.full.width, 1320) }));
+    return {
+      id,
+      title: data.title,
+      date: data.date,
+      column: data.column,
+      video: data.video,
+      thumb: thumb?.src,
+      full: full && { src: full.src, width: full.attributes.width, height: full.attributes.height },
+    };
+  }),
+);
+---
+
+<Base title="Side Projects">
+  <!-- client:load: the cards are in the HTML already; React makes them clickable. -->
+  <SideProjects client:load projects={projects} />
+</Base>

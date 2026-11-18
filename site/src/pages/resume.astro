@@ -1,0 +1,88 @@
+---
+// The Resume page. All text comes from src/data/resume.yaml.
+import { getEntry } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import ResumeRow from '../components/ResumeRow.astro';
+
+const resume = (await getEntry('resume', 'resume'))!.data;
+---
+
+<Base title="Resume" description={resume.about}>
+  <article class="resume">
+    <header class="intro">
+      <img src="/images/resume-avatar.avif" alt="" width="90" height="90" />
+      <div>
+        <h1>{resume.name}</h1>
+        <p>{resume.tagline}</p>
+      </div>
+    </header>
+
+    <section>
+      <h2>About</h2>
+      <p class="about">{resume.about}</p>
+    </section>
+
+    <section>
+      <h2>Work Experience</h2>
+      <div class="rows">
+        {resume.experience.map((item) => <ResumeRow {...item} />)}
+      </div>
+    </section>
+
+    <section>
+      <h2>Education</h2>
+      <div class="rows">
+        {resume.education.map((item) => <ResumeRow {...item} />)}
+      </div>
+    </section>
+
+    <section>
+      <h2>Contact</h2>
+      <div class="rows compact">
+        {resume.contact.map((item) => <ResumeRow period={item.label} title={item.value} url={item.url} />)}
+      </div>
+    </section>
+  </article>
+</Base>
+
+<style>
+  .resume {
+    max-width: calc(519px + 48px);
+    margin: 0 auto;
+    padding: 65px 24px 96px;
+    line-height: 24px;
+  }
+  .intro {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  .intro img {
+    flex: none;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  h1 {
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 1.2;
+  }
+  .intro p,
+  .about {
+    color: var(--text-secondary);
+  }
+  section { margin-top: 50px; }
+  section:first-of-type { margin-top: 38px; }
+  h2 {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1;
+  }
+  .about { margin-top: 9px; }
+  .rows {
+    display: grid;
+    gap: 40px;
+    margin-top: 27px;
+  }
+  .rows.compact { gap: 19px; }
+</style>

@@ -1,33 +1,16 @@
-/* Neutral colors sampled from the supplied read.cv UI references. */
-html[data-theme="light"] {
-  --background: #ffffff;
-  --text: #666666;
-  --text-title: #111111;
-  --button-background: #f2f2f2;
-  --button-background-hover: #e5e5e5;
-  --button-text: #111111;
-}
-html[data-theme="dark"] {
-  --background: #222222;
-  --text: #aaaaaa;
-  --text-title: #eeeeee;
-  --button-background: #333333;
-  --button-background-hover: #484747;
-  --button-text: #eeeeee;
-}
+/*
+ * Theme layer for the published output. Values come from tokens.css.
+ * Sections: page · theme toggle · navigation · home cards · palette mapping ·
+ * pickers · theme transition. Small-screen rules live in mobile.css.
+ */
+
+/* ---------- Page ---------- */
 html[data-theme] body:not(:has(#main)) {
   color: var(--text);
   background-color: var(--background);
 }
+/* Point the published color tokens at the light palette. */
 html[data-theme="light"] body {
-  --portfolio-background: #ffffff;
-  --portfolio-surface: #fafafa;
-  --portfolio-surface-hover: #f2f2f2;
-  --portfolio-text: #111111;
-  --portfolio-secondary: #666666;
-  --portfolio-muted: #aaaaaa;
-  --portfolio-border: #e5e5e5;
-  --portfolio-divider: #f2f2f2;
   --token-3eb23bfe-3cc9-4468-8ee1-b4c8997b3e63: var(--portfolio-text);
   --token-e6ab727f-9a18-40da-9f40-f01b244064e5: var(--portfolio-secondary);
   --token-a20a4daa-cedb-4a17-903a-99541507b492: #888888;
@@ -38,14 +21,19 @@ html[data-theme="light"] body {
   --token-391d6e2d-d9b8-47f4-9abc-21f710384b0b: var(--portfolio-surface);
   color: var(--portfolio-text);
 }
-
 html[data-theme="light"], html[data-theme="light"] body {
-  background-color: #ffffff;
+  background-color: var(--portfolio-background);
+}
+html[data-theme="dark"] body { background-color: var(--background, #222222); }
+/* Match the gallery canvas to the rest of the portfolio in both themes. */
+html[data-theme] #main .portfolio-KpIXY[data-portfolio-root] {
+  background-color: var(--token-9beb1a0d-4f43-45b4-b06a-2c7d988dcd13, #222222) !important;
 }
 
 /* The published badge is also removed at build time, including its bootstrap. */
 #__portfolio-badge-container, .__portfolio-badge { display: none !important; }
 
+/* ---------- Theme toggle ---------- */
 /* Keep the existing theme control's position in every navigation variant. */
 [data-portfolio-name="Theme"] { cursor: pointer; position: relative; }
 #portfolio-mobile-theme { display: none; }
@@ -55,21 +43,21 @@ html[data-theme="light"], html[data-theme="light"] body {
   content: "";
   position: absolute;
   inset: 1px;
-  width: 22px;
-  height: 22px;
-  background-color: #666666;
+  width: calc(var(--nav-icon-size) - 2px);
+  height: calc(var(--nav-icon-size) - 2px);
+  background-color: var(--portfolio-icon);
   mask: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.9 13.3A9 9 0 0 1 10.7 3.1 9 9 0 1 0 20.9 13.3Z" fill="none" stroke="black" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>') center / contain no-repeat;
 }
 html[data-theme="dark"] [data-portfolio-name="Theme"]::before {
-  background-color: #aaaaaa;
   mask-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="black" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></g></svg>');
 }
 [data-portfolio-name="Theme"]:focus-visible {
-  outline: 2px solid #0788f5;
+  outline: 2px solid var(--focus-ring);
   outline-offset: 6px;
   border-radius: 4px;
 }
 
+/* ---------- Navigation ---------- */
 html[data-theme="light"] #main nav {
   box-shadow: 1px 0 0 var(--portfolio-divider) !important;
 }
@@ -81,12 +69,13 @@ html[data-theme="light"] #main [style*="1px 0px 0px 0px rgba(255, 255, 255, 0.1)
   box-shadow: 1px 0 0 var(--portfolio-divider) !important;
 }
 
+/* ---------- Home cards ---------- */
 /* The two floating home cards retain the original dimensions and motion. */
 html[data-theme="light"] .portfolio-buYn3,
 html[data-theme="light"] .portfolio-SXWNI {
   background-color: var(--portfolio-surface) !important;
   --border-color: var(--portfolio-border) !important;
-  box-shadow: 0 2px 4px rgb(0 0 0 / 0.02), 0 12px 36px rgb(0 0 0 / 0.06) !important;
+  box-shadow: var(--shadow-card) !important;
   transition: background-color 180ms ease;
 }
 html[data-theme="light"] .portfolio-buYn3:hover,
@@ -101,10 +90,17 @@ html[data-theme="light"] .portfolio-SXWNI p {
 html[data-theme="light"] .portfolio-buYn3 .portfolio-1oryzfs {
   background-color: rgb(0 0 0 / 0.06) !important;
 }
+@media (prefers-reduced-motion: reduce) {
+  html[data-theme="light"] .portfolio-buYn3,
+  html[data-theme="light"] .portfolio-SXWNI { transition: none; }
+}
 
+/* ---------- Palette mapping ---------- */
 /* Untokenized neutral surfaces and article typography in the published output. */
 html[data-theme="light"] #main [style*="background-color: rgb(51, 51, 51)"],
-html[data-theme="light"] #main [style*="background-color:rgb(51, 51, 51)"] {
+html[data-theme="light"] #main [style*="background-color:rgb(51, 51, 51)"],
+html[data-theme="light"] #main [style*="background-color: rgb(159, 133, 45)"],
+html[data-theme="light"] #main [style*="background-color:rgb(159, 133, 45)"] {
   background-color: var(--portfolio-surface-hover) !important;
 }
 html[data-theme="light"] #main [style*="background-color: rgba(34, 34, 34, 0.5)"],
@@ -126,67 +122,34 @@ html[data-theme="light"] #main [style*="--border-color: rgba(255, 255, 255, 0.14
 html[data-theme="light"] #main [style*="--border-color:rgba(255, 255, 255, 0.14)"] {
   --border-color: var(--portfolio-border) !important;
 }
-html[data-theme="light"] #main [style*="background-color: rgb(159, 133, 45)"],
-html[data-theme="light"] #main [style*="background-color:rgb(159, 133, 45)"] {
-  background-color: var(--portfolio-surface-hover) !important;
-}
 html[data-theme="light"] #main [data-portfolio-component-type="RichTextContainer"]:has(> p:nth-of-type(2)) > p {
   --portfolio-text-color: var(--portfolio-secondary) !important;
 }
 html[data-theme="light"] #main [data-portfolio-component-type="RichTextContainer"]:has(> p:nth-of-type(2)) > p strong {
   color: var(--portfolio-text);
 }
+/* The video caption sits below its media, so it follows the page text palette. */
+#main .portfolio-sk3beg :is(h2, h3) { color: var(--token-3eb23bfe-3cc9-4468-8ee1-b4c8997b3e63, #eeeeee) !important; --portfolio-text-color: var(--token-3eb23bfe-3cc9-4468-8ee1-b4c8997b3e63, #eeeeee) !important; }
+#main .portfolio-sk3beg p { color: var(--token-e6ab727f-9a18-40da-9f40-f01b244064e5, #aaaaaa) !important; --portfolio-text-color: var(--token-e6ab727f-9a18-40da-9f40-f01b244064e5, #aaaaaa) !important; }
 
-@media (max-width: 1199.98px) {
-  #main [data-portfolio-name="Theme"] { display: none !important; }
-  #portfolio-mobile-theme {
-    display: block;
-    position: fixed;
-    right: max(12px, calc((100vw - 336px) / 2));
-    bottom: 52px;
-    width: 24px;
-    height: 24px;
-    z-index: 20;
-    padding: 0;
-    border: 0;
-    background: transparent;
-  }
-  #portfolio-mobile-theme[hidden] { display: none; }
-  #main nav .portfolio-h6um5h { transform: translateX(-26px) !important; }
-  html[data-theme="light"] #main nav {
-    box-shadow: 0 -1px 0 var(--portfolio-divider) !important;
-    --border-color: var(--portfolio-divider) !important;
-  }
-}
-@media (max-width: 359.98px) {
-  #main nav .portfolio-h6um5h { gap: 20px !important; transform: translateX(-22px) !important; }
-  #portfolio-mobile-theme { right: calc((100vw - 288px) / 2); }
+/* ---------- Pickers ---------- */
+/* The project picker stays fully visible on the index and every work detail. */
+#main .portfolio-EqMmV,
+#main div:has(> .portfolio-EqMmV),
+.portfolio-Pn9dC .portfolio-yx3m6p-container {
+  opacity: 1 !important;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  html[data-theme="light"] .portfolio-buYn3,
-  html[data-theme="light"] .portfolio-SXWNI { transition: none; }
-}
-
-/* Match the gallery canvas to the rest of the portfolio in both themes. */
-html[data-theme="dark"] body { background-color: var(--background, #222222); }
-html[data-theme] #main .portfolio-KpIXY[data-portfolio-root] {
-  background-color: var(--token-9beb1a0d-4f43-45b4-b06a-2c7d988dcd13, #222222) !important;
-}
-
+/* ---------- Theme transition ---------- */
 /* Crossfade old and new palettes without moving the content. */
-::view-transition-old(root) { animation: palette-out 280ms ease-in-out both; }
-::view-transition-new(root) { animation: palette-in 280ms ease-in-out both; mix-blend-mode: normal; }
+::view-transition-old(root) { animation: palette-out var(--theme-fade) ease-in-out both; }
+::view-transition-new(root) { animation: palette-in var(--theme-fade) ease-in-out both; mix-blend-mode: normal; }
 @keyframes palette-out { from { opacity: 1; } to { opacity: 0; } }
 @keyframes palette-in { from { opacity: 0; } to { opacity: 1; } }
 html.theme-fading, html.theme-fading body, html.theme-fading #main * {
-  transition: background-color 280ms ease-in-out, color 280ms ease-in-out, border-color 280ms ease-in-out, box-shadow 280ms ease-in-out !important;
+  transition: background-color var(--theme-fade) ease-in-out, color var(--theme-fade) ease-in-out, border-color var(--theme-fade) ease-in-out, box-shadow var(--theme-fade) ease-in-out !important;
 }
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-old(root), ::view-transition-new(root) { animation-duration: 0s; }
 }
 ::view-transition { pointer-events: none; }
-
-/* The video caption sits below its media, so it follows the page text palette. */
-#main .portfolio-sk3beg h3 { color: var(--token-3eb23bfe-3cc9-4468-8ee1-b4c8997b3e63, #eeeeee) !important; --portfolio-text-color: var(--token-3eb23bfe-3cc9-4468-8ee1-b4c8997b3e63, #eeeeee) !important; }
-#main .portfolio-sk3beg p { color: var(--token-e6ab727f-9a18-40da-9f40-f01b244064e5, #aaaaaa) !important; --portfolio-text-color: var(--token-e6ab727f-9a18-40da-9f40-f01b244064e5, #aaaaaa) !important; }

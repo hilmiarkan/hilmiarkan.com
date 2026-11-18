@@ -1,0 +1,54 @@
+---
+// Shown by Cloudflare Pages for any address that does not exist.
+import '../styles/global.css';
+---
+
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Hilmi Arkan</title>
+    <meta name="description" content="This page doesn’t exist or has moved." />
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#ffffff" />
+    <link rel="icon" href="/favicon.avif" />
+    <script is:inline>
+      (() => {
+        let theme = 'light';
+        try {
+          const saved = localStorage.getItem('hilmi-theme');
+          if (saved === 'light' || saved === 'dark') theme = saved;
+        } catch {}
+        document.documentElement.dataset.theme = theme;
+      })();
+    </script>
+  </head>
+  <body>
+    <main class="not-found">
+      <video src="/videos/tom-loop.mp4" poster="/images/tom-poster.jpg" autoplay loop muted playsinline aria-label="Tom from Tom and Jerry"></video>
+      <a href="/">Back to home</a>
+    </main>
+  </body>
+</html>
+
+<style>
+  .not-found {
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: 20px;
+    min-height: 100svh;
+    padding: 24px;
+  }
+  video {
+    display: block;
+    width: min(434px, 100%);
+    aspect-ratio: 434 / 318;
+    border-radius: 12px;
+    object-fit: cover;
+  }
+  a {
+    color: var(--text-secondary);
+  }
+</style>

@@ -1,0 +1,91 @@
+---
+import Icon from './Icon.astro';
+import ThemeToggle from './ThemeToggle.astro';
+import { navItems } from '../data/nav';
+import { cleanPath } from '../data/paths';
+
+// "/notes/1" keeps the Notes icon current; "/" only matches the home page.
+const path = cleanPath(Astro.url.pathname);
+const isCurrent = (href: string) => (href === '/' ? path === '/' : path === href || path.startsWith(href + '/'));
+---
+
+<nav class="nav" aria-label="Main">
+  <ul class="nav-links">
+    {
+      navItems.map((item) => (
+        <li>
+          <a class="nav-link" href={item.href} aria-label={item.label} aria-current={isCurrent(item.href) ? 'page' : undefined}>
+            <Icon name={item.icon} />
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+  <div class="nav-theme">
+    <ThemeToggle />
+  </div>
+</nav>
+
+<style>
+  /* Desktop: a narrow sidebar. Links sit in the middle, theme toggle at the bottom. */
+  .nav {
+    display: grid;
+    grid-template-rows: 1fr auto 1fr;
+    justify-items: center;
+    width: var(--nav-size);
+    height: 100%;
+    padding: 30px 18px;
+    background: var(--background);
+    box-shadow: 1px 0 0 var(--divider);
+    color: var(--icon);
+  }
+  .nav-links {
+    grid-row: 2;
+    display: flex;
+    flex-direction: column;
+    gap: var(--nav-gap);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .nav-theme {
+    grid-row: 3;
+    align-self: end;
+  }
+  .nav-link {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: var(--nav-icon-size);
+    height: var(--nav-icon-size);
+  }
+
+  /* Small screens: the same links as a bottom bar, with the toggle as the last slot. */
+  @media (max-width: 1199.98px) {
+    .nav {
+      display: flex;
+      justify-content: center;
+      gap: var(--nav-gap);
+      width: 100%;
+      height: var(--nav-bar-height);
+      padding: 16px 18px 52px;
+      box-shadow: 0 -1px 0 var(--divider);
+    }
+    .nav-links {
+      flex-direction: row;
+    }
+    /* Icons stay 24px; the touch area grows to a comfortable size. */
+    .nav-link::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: calc(var(--nav-icon-size) + var(--nav-gap));
+      height: var(--tap-target);
+      transform: translate(-50%, -50%);
+    }
+  }
+  @media (max-width: 359.98px) {
+    .nav { --nav-gap: 20px; }
+  }
+</style>

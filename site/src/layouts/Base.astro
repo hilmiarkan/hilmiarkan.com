@@ -1,0 +1,85 @@
+---
+import Nav from '../components/Nav.astro';
+import { cleanPath } from '../data/paths';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  // Fonts needed for the first screen, fetched early. Text pages use Inter.
+  preloadFonts?: string[];
+}
+
+const { title, description = 'App Developer & UI/UX Designer', preloadFonts = ['inter-400'] } = Astro.props;
+const pageTitle = title ? `${title} · Hilmi Arkan` : 'Hilmi Arkan';
+const canonical = new URL(cleanPath(Astro.url.pathname), Astro.site);
+---
+
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#ffffff" />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.avif" />
+    {preloadFonts.map((font) => <link rel="preload" href={`/fonts/${font}.woff2`} as="font" type="font/woff2" crossorigin />)}
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <!-- Runs before the first paint so the saved theme never flashes. -->
+    <script is:inline>
+      (() => {
+        let theme = 'light';
+        try {
+          const saved = localStorage.getItem('hilmi-theme');
+          if (saved === 'light' || saved === 'dark') theme = saved;
+        } catch {}
+        document.documentElement.dataset.theme = theme;
+        if (theme === 'dark') document.querySelector('meta[name="theme-color"]')?.setAttribute('content', '#222222');
+      })();
+    </script>
+  </head>
+  <body>
+    <div class="shell">
+      <Nav />
+      <main class="page">
+        <slot />
+      </main>
+    </div>
+  </body>
+</html>
+
+<style>
+  /* Desktop: sidebar on the left, page on the right. The page scrolls, the
+     navigation never moves. */
+  .shell {
+    display: grid;
+    grid-template-columns: var(--nav-size) minmax(0, 1fr);
+    height: 100vh;
+    height: 100dvh;
+  }
+  .page {
+    position: relative;
+    min-width: 0;
+    min-height: 0;
+    overflow: auto;
+  }
+
+  /* Small screens: page on top, navigation docked at the bottom. */
+  @media (max-width: 1199.98px) {
+    .shell {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: minmax(0, 1fr) auto;
+    }
+    .shell > :global(.nav) {
+      grid-row: 2;
+    }
+    .page {
+      grid-row: 1;
+    }
+  }
+</style>

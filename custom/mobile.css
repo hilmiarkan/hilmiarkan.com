@@ -1,0 +1,176 @@
+/*
+ * Small-screen fixes for the published output. Desktop (>= 1200px) is untouched.
+ * Sections: viewport · navigation · pickers · home · work detail · notes ·
+ * side projects · resume.
+ */
+@media (max-width: 1199.98px) {
+
+  /* ---------- Viewport ---------- */
+  /* Follow the visible viewport so the bottom navigation is never hidden
+     behind the browser toolbar. */
+  #main [data-portfolio-root] {
+    height: 100vh !important;
+    height: 100dvh !important;
+  }
+
+  /* ---------- Navigation ---------- */
+  html[data-theme="light"] #main nav {
+    box-shadow: 0 -1px 0 var(--portfolio-divider) !important;
+    --border-color: var(--portfolio-divider) !important;
+  }
+  /* The original bottom bar has no theme slot: shift the icons and dock one. */
+  #main nav .portfolio-h6um5h { transform: translateX(-26px) !important; }
+  #main [data-portfolio-name="Theme"] { display: none !important; }
+  #portfolio-mobile-theme {
+    display: block;
+    position: fixed;
+    right: max(12px, calc((100vw - 336px) / 2));
+    bottom: 52px;
+    width: var(--nav-icon-size);
+    height: var(--nav-icon-size);
+    z-index: 20;
+    padding: 0;
+    border: 0;
+    background: transparent;
+  }
+  #portfolio-mobile-theme[hidden] { display: none; }
+  /* Icons stay 24px; the touch area grows to a comfortable size. */
+  #main nav a::after,
+  #portfolio-mobile-theme::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 52px;
+    height: var(--tap-target);
+    transform: translate(-50%, -50%);
+  }
+
+  /* ---------- Pickers (projects, notes) ---------- */
+  #main .portfolio-EqMmV,
+  #main .portfolio-4Dcx6 {
+    box-shadow: var(--shadow-bar) !important;
+  }
+  html[data-theme="light"] #main .portfolio-EqMmV,
+  html[data-theme="light"] #main .portfolio-4Dcx6 {
+    --border-color: var(--portfolio-divider) !important;
+  }
+
+  /* ---------- Home ---------- */
+  /* Stack the avatar above the name card and keep both centered. --u is one
+     design pixel, scaled down only when the card would not fit the screen. */
+  #main .portfolio-nSOpu .portfolio-8ugk4u {
+    --u: min(1px, (100vw - 48px) / 426);
+    height: 100% !important;
+  }
+  #main .portfolio-nSOpu .portfolio-1cflvpf-container {
+    left: calc(50% - 54px) !important;
+    top: calc(50% - 62px - 56.5 * var(--u)) !important;
+  }
+  #main .portfolio-nSOpu .portfolio-27yr8j-container {
+    left: 50% !important;
+    top: calc(50% + 62px - 56.5 * var(--u)) !important;
+    transform: translateX(-50%) !important;
+  }
+  #main .portfolio-SXWNI.portfolio-174yzkf {
+    gap: calc(10 * var(--u));
+    padding: calc(15 * var(--u)) calc(26 * var(--u)) calc(22 * var(--u)) calc(21 * var(--u));
+    border-radius: calc(19 * var(--u)) !important;
+  }
+  #main .portfolio-SXWNI h2 { --portfolio-font-size: calc(46 * var(--u)) !important; }
+  #main .portfolio-SXWNI p { --portfolio-font-size: calc(20 * var(--u)) !important; }
+  #main .portfolio-buYn3,
+  #main .portfolio-SXWNI {
+    box-shadow: var(--shadow-card-compact) !important;
+  }
+
+  /* ---------- Work detail ---------- */
+  /* The article scrolls between the top of the screen and the picker, so the
+     picker and navigation stay docked like on every other page. */
+  #main [data-portfolio-root] > [data-portfolio-name="Frame 13"] {
+    flex: 1 0 0 !important;
+    height: 1px !important;
+    min-height: 0;
+  }
+
+  /* ---------- Notes ---------- */
+  #main .portfolio-4Dcx6 h2 { font-size: 12px !important; }
+
+  /* ---------- Resume ---------- */
+  /* A long job title wraps instead of being cut off at the screen edge. */
+  #main .portfolio-NqxPT .portfolio-koj4f { width: 100%; }
+  #main .portfolio-NqxPT .portfolio-koj4f > [data-portfolio-component-type="RichTextContainer"] {
+    flex: 1 0 0;
+    width: 1px;
+    white-space: pre-wrap;
+  }
+
+  /* ---------- Work text sizes ---------- */
+  /* Heading and body presets keep their desktop size instead of shrinking to 9px. */
+  #main [data-portfolio-name="Frame 13"] .portfolio-styles-preset-1hovgd8:not(.rich-text-wrapper),
+  #main [data-portfolio-name="Frame 13"] .portfolio-styles-preset-1hovgd8.rich-text-wrapper h2 {
+    --portfolio-font-size: 18px;
+  }
+  #main [data-portfolio-name="Frame 13"] .portfolio-styles-preset-12lj5ox:not(.rich-text-wrapper),
+  #main [data-portfolio-name="Frame 13"] .portfolio-styles-preset-12lj5ox.rich-text-wrapper h3 {
+    --portfolio-font-size: 14px;
+  }
+
+  /* ---------- Works published without a small-screen layout ---------- */
+  /* These pages only ship the desktop variant (the sidebar navigation,
+     "Variant 1"). Arrange it like the responsive works: article on top,
+     project picker, then the bottom navigation. */
+  #main [data-portfolio-root]:has(> div > nav[data-portfolio-name="Variant 1"]) {
+    flex-direction: column !important;
+    width: 100% !important;
+    overflow: hidden !important;
+  }
+  #main [data-portfolio-root]:has(> div > nav[data-portfolio-name="Variant 1"]) > div:has(> nav) { order: 2; width: 100%; height: auto; }
+  #main [data-portfolio-root]:has(> div > nav[data-portfolio-name="Variant 1"]) > div:has(> .portfolio-EqMmV) { order: 1; width: 100%; height: auto; }
+  #main [data-portfolio-root]:has(> div > nav[data-portfolio-name="Variant 1"]) > [data-portfolio-name="Frame 13"] { order: 0; width: 100% !important; }
+
+  /* Sidebar navigation becomes the bottom bar. */
+  #main [data-portfolio-root]:has(> div > nav[data-portfolio-name="Variant 1"]) > div > nav {
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    height: auto;
+    padding: 16px 18px 52px;
+    --border-top-width: 1px !important;
+    --border-right-width: 0px !important;
+  }
+  html[data-theme="dark"] #main [data-portfolio-root]:has(> div > nav[data-portfolio-name="Variant 1"]) > div > nav {
+    box-shadow: none !important;
+    --border-color: rgb(48, 48, 48) !important;
+  }
+  #main [data-portfolio-root]:has(> div > nav[data-portfolio-name="Variant 1"]) > div > nav > [data-portfolio-name="Back"] { display: none; }
+  #main [data-portfolio-root]:has(> div > nav[data-portfolio-name="Variant 1"]) > div > nav > .portfolio-h6um5h { flex-direction: row; }
+
+  /* Sidebar project list becomes the horizontal picker. */
+  #main [data-portfolio-root]:has(> div > nav[data-portfolio-name="Variant 1"]) > div > .portfolio-EqMmV {
+    flex-direction: row;
+    justify-content: flex-start;
+    width: 100%;
+    height: auto;
+    overflow: auto;
+    --border-top-width: 1px !important;
+    --border-right-width: 0px !important;
+  }
+  html[data-theme="dark"] #main [data-portfolio-root]:has(> div > nav[data-portfolio-name="Variant 1"]) > div > .portfolio-EqMmV {
+    --border-color: rgb(52, 52, 52) !important;
+  }
+  #main [data-portfolio-root]:has(> div > nav[data-portfolio-name="Variant 1"]) > div > .portfolio-EqMmV > div { flex: none; width: 157px; }
+
+  /* Article spacing matches the responsive works. */
+  #main [data-portfolio-root]:has(> div > nav[data-portfolio-name="Variant 1"]) [data-portfolio-name="Y"] {
+    gap: 46px;
+    padding: 28px 24px;
+  }
+}
+
+@media (max-width: 359.98px) {
+  #main nav .portfolio-h6um5h { gap: 20px !important; transform: translateX(-22px) !important; }
+  #portfolio-mobile-theme { right: calc((100vw - 288px) / 2); }
+  #main nav a::after,
+  #portfolio-mobile-theme::after { width: var(--tap-target); }
+}

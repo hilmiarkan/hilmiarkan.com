@@ -1,0 +1,158 @@
+/* ---------- Grid ---------- */
+.projects {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 300px));
+  justify-content: end;
+  gap: 33px;
+  padding: 40px;
+}
+.projects-column {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+/* ---------- Card ---------- */
+.card {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 166px;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid rgb(255 255 255 / 0.2);
+  border-radius: var(--radius-item);
+  background: var(--surface-hover);
+  font: inherit;
+  text-align: left;
+}
+button.card { cursor: pointer; }
+.card img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* The caption sits on the image, over a fade to dark, in both themes. */
+.card-caption {
+  position: absolute;
+  inset: auto 0 0 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  height: 86px;
+  padding: 0 14px 14px;
+  background: linear-gradient(180deg, rgb(0 0 0 / 0) 0%, rgb(0 0 0 / 0.83) 100%);
+  line-height: 24px;
+}
+.card-caption .card-title {
+  color: #ededed;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.card-caption .card-date {
+  flex: none;
+  color: rgb(255 255 255 / 0.6);
+}
+
+/* ---------- Video card ---------- */
+.video-card {
+  margin: 0 0 34px;
+}
+.video-card video {
+  display: block;
+  width: 251px;
+  max-width: 100%;
+  aspect-ratio: 251 / 509;
+  margin: 0 auto;
+  border-radius: 21px;
+  background: #000;
+  object-fit: cover;
+}
+/* Its caption sits below the video, so it follows the page palette. */
+.video-card figcaption {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 14px 0;
+  line-height: 24px;
+}
+.video-card .card-date { color: var(--text-secondary); }
+
+/* ---------- Overlay ---------- */
+/* Covers the page area only: the navigation stays visible and usable. */
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  padding: 60px;
+  background: rgb(34 34 34 / 0.96);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 300ms ease-in, visibility 0s linear 300ms;
+}
+.overlay[data-open="true"] {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 300ms ease-in;
+}
+
+/* A browser window: toolbar on top, the design scrolling underneath. */
+.window {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 0 0.6px 1.8px -0.8px rgb(0 0 0 / 0.125), 0 2.3px 6.9px -1.7px rgb(0 0 0 / 0.125),
+    0 10px 30px -2.5px rgb(0 0 0 / 0.125);
+}
+.window-bar {
+  flex: none;
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.window-bar:focus-visible { outline-offset: -2px; }
+.window-bar img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.window-page {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+.window-page img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ---------- Small screens ---------- */
+@media (max-width: 1199.98px) {
+  /* Columns dissolve: every card becomes a cell of one flowing grid. */
+  .projects {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    justify-content: stretch;
+    gap: 40px 24px;
+    padding: 24px;
+  }
+  .projects-column { display: contents; }
+  .video-card video { width: min(335px, 100%); aspect-ratio: 335 / 550; }
+  .overlay { padding: 16px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .overlay,
+  .overlay[data-open="true"] { transition: none; }
+}

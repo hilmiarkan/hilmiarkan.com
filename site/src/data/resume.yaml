@@ -1,0 +1,69 @@
+# Everything on the Resume page. Edit this file to update the CV; the layout
+# lives in src/pages/resume.astro and never needs to change for new entries.
+
+name: Hilmi Arkan
+tagline: Average human in Malang, Indonesia
+about: Currently building delightful user interfaces for everyone.
+
+experience:
+  - period: Aug 2026 — Present
+    duration: 4 mos
+    title: Web Designer at Advertai Marketing
+    meta: Indonesia · Remote · Full-time
+    details:
+      - Designing awesome websites
+
+  - period: 2024 — 2024
+    duration: 5 month
+    title: UI/UX Designer at Inspon Tech
+    meta: Remote
+    details:
+      - "- Redesigning “Uploadly” & “Textfield” Shopify plugin look and feel to adhere with Polaris Design System (Shopify’s official DS)"
+      - "- Designing various landing pages and one shopify watch store"
+
+  - period: 2022 — 2022
+    duration: 5 month
+    title: UI/UX Designer at Erloom Digital Venture
+    url: https://www.erloom.id/
+    meta: Remote
+    details:
+      - "- Requirement design discussion"
+      - "- Implementation process flow into User Interface Design"
+      - "- Daily progress update"
+      - "- Help designing three product until high fidelity phase: Auction PaaS web app, Car rent mobile app, and Automotive service admin dashboard"
+
+  - period: 2022 — 2022
+    duration: 3 month
+    title: Junior Graphic Designer at Algert.co
+    url: https://algert.co/
+    meta: Remote
+    details:
+      - "- Designing Website pages and design assets for multiple brands, mainly for website"
+      - "- Actively collaborating with design teams and clients to make design decisions"
+
+  - period: 2020 — 2020
+    duration: 4 month
+    title: UI/UX Designer Intern at DOT Indonesia
+    url: https://dot.co.id/
+    meta: Remote
+    details:
+      - "Directly collaborated with UI/UX Designer team and Analyst team to prototype, design, and deliver the UI for some pre-proposal project with a lean design process: research, design, and iterate."
+
+education:
+  - period: 2021 — Now
+    title: Bachelor of Software Engineering at UIN Maulana Malik Ibrahim Malang
+    url: https://informatika.uin-malang.ac.id/
+    meta: Malang, Indonesia
+
+  - period: 2018 — 2021
+    title: Software Engineering Diploma at SMK Telkom Malang
+    url: https://smktelkom-mlg.sch.id/
+    meta: Malang, Indonesia
+
+contact:
+  - { label: Dribbble, value: hilmiarkan, url: "https://dribbble.com/hilmiarkan" }
+  - { label: Behance, value: hilmiarkan, url: "https://www.behance.net/hilmiarkan" }
+  - { label: Figma, value: hilmiarkan, url: "https://www.figma.com/@hilmiarkan" }
+  - { label: LinkedIn, value: hilmiarkan, url: "https://www.linkedin.com/in/hilmiarkan/" }
+  - { label: GitHub, value: hilmiarkan, url: "https://github.com/hilmiarkan" }
+  - { label: Upwork, value: hilmiarkan, url: "https://www.upwork.com/freelancers/~010ab07d027df264e3" }
