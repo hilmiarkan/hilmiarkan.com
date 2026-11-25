@@ -49,6 +49,7 @@ const sides = [
       ))
     }
   </div>
+  <p class="closing-note appear">May He bless my work and help me use the internet for what benefits me and others.</p>
 </Base>
 
 <style>
@@ -57,7 +58,14 @@ const sides = [
     display: flex;
     align-items: flex-start;
     gap: var(--gap);
-    padding: 24px;
+    padding: 24px 24px 0;
+  }
+  .closing-note {
+    margin: 8px 24px;
+    color: var(--text-secondary);
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    text-align: center;
   }
   /* Wide screens: the two sides dissolve and the five columns sit in a row. */
   .side { display: contents; }
