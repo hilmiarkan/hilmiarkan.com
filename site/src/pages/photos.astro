@@ -18,32 +18,23 @@ const resolve = (photo: Photo) => {
 };
 
 const columns = photoColumns.map((column) => column.map(resolve));
-// On phones the five columns merge into two: odd columns left, even right.
-const sides = [
-  { name: 'left', columns: columns.map((photos, index) => ({ photos, index })).filter((c) => c.index % 2 === 0) },
-  { name: 'right', columns: columns.map((photos, index) => ({ photos, index })).filter((c) => c.index % 2 === 1) },
-];
 ---
 
 <Base title="Photos">
   <div class="wall appear">
     {
-      sides.map((side) => (
-        <div class:list={['side', side.name]}>
-          {side.columns.map((column) => (
-            <div class="column" style={`--order: ${column.index}`} data-column={column.index + 1}>
-              {column.photos.map(({ image, alt, ratio }, i) => (
-                <Image
-                  class="photo"
-                  src={image}
-                  alt={alt}
-                  style={ratio ? `aspect-ratio: ${ratio}` : undefined}
-                  widths={[250, 500, 750]}
-                  sizes="(max-width: 1199.98px) 45vw, 250px"
-                  loading={i < 2 ? 'eager' : 'lazy'}
-                />
-              ))}
-            </div>
+      columns.map((photos, index) => (
+        <div class="column" data-column={index + 1}>
+          {photos.map(({ image, alt, ratio }, i) => (
+            <Image
+              class="photo"
+              src={image}
+              alt={alt}
+              style={ratio ? `aspect-ratio: ${ratio}` : undefined}
+              widths={[250, 500, 750]}
+              sizes="(max-width: 1199.98px) 45vw, 250px"
+              loading={i < 2 ? 'eager' : 'lazy'}
+            />
           ))}
         </div>
       ))
@@ -67,10 +58,7 @@ const sides = [
     line-height: 1.5;
     text-align: center;
   }
-  /* Wide screens: the two sides dissolve and the five columns sit in a row. */
-  .side { display: contents; }
   .column {
-    order: var(--order);
     flex: 1;
     min-width: 0;
     display: flex;
@@ -88,18 +76,20 @@ const sides = [
     border-radius: var(--radius-item);
   }
 
-  /* Small screens: two columns, the left one starting lower. */
+  /* Let the browser balance the photos across two masonry columns. */
   @media (max-width: 1199.98px) {
-    .wall { --gap: 21px; }
-    .side {
-      flex: 1;
-      min-width: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
+    .wall {
+      --gap: clamp(10px, 3vw, 18px);
+      display: block;
+      column-count: 2;
+      column-gap: var(--gap);
+      column-fill: balance;
+      padding: var(--gap) var(--gap) 0;
     }
-    .side.left { margin-top: 147px; }
-    .column { flex: none; gap: 24px; }
-    .column[data-column="4"] { margin-top: 0; }
+    .column { display: contents; }
+    .photo {
+      break-inside: avoid;
+      margin-block-end: var(--gap);
+    }
   }
 </style>
