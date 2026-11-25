@@ -18,12 +18,44 @@ const resolve = (photo: Photo) => {
 };
 
 const columns = photoColumns.map((column) => column.map(resolve));
+
+type GalleryPhoto = (typeof columns)[number][number];
+const mobileColumns: [GalleryPhoto[], GalleryPhoto[]] = [[], []];
+const rowCount = Math.max(0, ...columns.map((column) => column.length));
+const mobilePhotos = Array.from({ length: rowCount }, (_, row) =>
+  columns.flatMap((column) => column.slice(row, row + 1)),
+).flat();
+const heightAtUnitWidth = ({ image, ratio }: GalleryPhoto) =>
+  ratio ? 1 / ratio : image.height / image.width;
+
+// Keep both stacks filled in reading order and use the photo ratios to keep
+// their bottoms close together at any viewport width.
+let heightDifference = 0;
+for (let index = 0; index < mobilePhotos.length; index += 2) {
+  const first = mobilePhotos[index];
+  const second = mobilePhotos[index + 1];
+  if (!second) {
+    mobileColumns[heightDifference <= 0 ? 0 : 1].push(first);
+    break;
+  }
+
+  const pairDifference = heightAtUnitWidth(first) - heightAtUnitWidth(second);
+  const keepOrder = Math.abs(heightDifference + pairDifference) <= Math.abs(heightDifference - pairDifference);
+  mobileColumns[0].push(keepOrder ? first : second);
+  mobileColumns[1].push(keepOrder ? second : first);
+  heightDifference += keepOrder ? pairDifference : -pairDifference;
+}
+
+const layouts = [
+  { name: 'desktop', columns },
+  { name: 'mobile', columns: mobileColumns },
+];
 ---
 
 <Base title="Photos">
-  <div class="wall appear">
-    {
-      columns.map((photos, index) => (
+  {layouts.map((layout) => (
+    <div class:list={['wall', `wall-${layout.name}`, 'appear']}>
+      {layout.columns.map((photos, index) => (
         <div class="column" data-column={index + 1}>
           {photos.map(({ image, alt, ratio }, i) => (
             <Image
@@ -37,9 +69,9 @@ const columns = photoColumns.map((column) => column.map(resolve));
             />
           ))}
         </div>
-      ))
-    }
-  </div>
+      ))}
+    </div>
+  ))}
   <p class="closing-note appear">May He bless my work and help me use the internet for what benefits me and others.</p>
 </Base>
 
@@ -52,7 +84,7 @@ const columns = photoColumns.map((column) => column.map(resolve));
     padding: 24px 24px 0;
   }
   .closing-note {
-    margin: 8px 24px;
+    margin: 56px 24px;
     color: var(--text-secondary);
     font-size: 0.8125rem;
     line-height: 1.5;
@@ -66,7 +98,7 @@ const columns = photoColumns.map((column) => column.map(resolve));
     gap: var(--gap);
   }
   /* The fourth column starts lower, as in the original layout. */
-  .column[data-column="4"] { margin-top: 84px; }
+  .wall-desktop .column[data-column="4"] { margin-top: 84px; }
   .photo {
     display: block;
     width: 100%;
@@ -76,20 +108,14 @@ const columns = photoColumns.map((column) => column.map(resolve));
     border-radius: var(--radius-item);
   }
 
-  /* Let the browser balance the photos across two masonry columns. */
+  .wall-mobile { display: none; }
+
   @media (max-width: 1199.98px) {
-    .wall {
+    .wall-desktop { display: none; }
+    .wall-mobile {
       --gap: clamp(10px, 3vw, 18px);
-      display: block;
-      column-count: 2;
-      column-gap: var(--gap);
-      column-fill: balance;
+      display: flex;
       padding: var(--gap) var(--gap) 0;
-    }
-    .column { display: contents; }
-    .photo {
-      break-inside: avoid;
-      margin-block-end: var(--gap);
     }
   }
 </style>

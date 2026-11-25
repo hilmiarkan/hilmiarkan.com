@@ -194,6 +194,7 @@ button.card { cursor: pointer; }
     padding: 24px;
   }
   .projects-column { display: contents; }
+  .card { height: clamp(215px, 60vw, 260px); }
   .video-card video { width: min(335px, 100%); aspect-ratio: 335 / 550; }
   .overlay { padding: 16px; }
 }

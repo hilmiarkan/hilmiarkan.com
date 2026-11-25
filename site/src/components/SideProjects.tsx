@@ -134,14 +134,12 @@ function Overlay({ project, onClose }: OverlayProps) {
           role="dialog"
           aria-modal="true"
           aria-label={visible.title}
-          // A click inside the window must not reach the backdrop and close it.
-          onClick={(event) => event.stopPropagation()}
           // Once the closing fade has finished, the window can be removed.
           onAnimationEnd={(event) => {
             if (!project && event.animationName === 'window-out') setShown(null);
           }}
         >
-          <button type="button" className="window-bar" ref={closeButton} onClick={onClose} aria-label="Close">
+          <button type="button" className="window-bar" ref={closeButton} aria-label="Close">
             <img src="/images/browser-toolbar.svg" alt="" />
           </button>
           <div className="window-page">
