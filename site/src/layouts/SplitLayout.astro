@@ -7,13 +7,14 @@ import Base from './Base.astro';
 interface Props {
   title?: string;
   description?: string;
+  emptyTitle?: string;
   sidebarWidth: string;   // desktop width of the picker, e.g. "190px"
   sidebarLabel: string;   // accessible name, e.g. "Works"
   fadeIn?: boolean;       // fade the content in when the page opens
   fadeSidebar?: boolean;  // fade the picker in when the page opens
 }
 
-const { title, description, sidebarWidth, sidebarLabel, fadeIn = false, fadeSidebar = false } = Astro.props;
+const { title, description, emptyTitle, sidebarWidth, sidebarLabel, fadeIn = false, fadeSidebar = false } = Astro.props;
 ---
 
 <Base title={title} description={description}>
@@ -22,6 +23,7 @@ const { title, description, sidebarWidth, sidebarLabel, fadeIn = false, fadeSide
       <slot name="sidebar" />
     </aside>
     <div class:list={['content', { 'fade-in': fadeIn }]}>
+      {emptyTitle && <h1 class="empty-title appear">{emptyTitle}</h1>}
       <slot />
     </div>
   </div>
@@ -54,6 +56,18 @@ const { title, description, sidebarWidth, sidebarLabel, fadeIn = false, fadeSide
     min-width: 0;
     min-height: 0;
     overflow: auto;
+  }
+  .empty-title {
+    display: grid;
+    place-items: center;
+    min-height: 100%;
+    padding: 16px;
+    color: var(--text-date);
+    color: color-mix(in srgb, var(--text-date) 90%, var(--background));
+    font-size: 1.75rem;
+    font-weight: 400;
+    line-height: 1.2;
+    text-align: center;
   }
   .fade-in {
     animation: content-in 360ms cubic-bezier(0.22, 0.61, 0.36, 1);
